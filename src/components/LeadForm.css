@@ -1,0 +1,189 @@
+/* Wrapper general */
+.lead-form {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+/* Labels */
+.lead-form label {
+  display: block;
+  font-size: 1.7vw;
+  font-weight: 500;
+  color: #eeeeee;
+  margin-bottom: 1vw;
+}
+
+/* Inputs base */
+.lead-form input[type="text"],
+.lead-form input[type="email"],
+.lead-form textarea {
+  width: 100%;
+  padding: 2vw;
+  font-size: 1.6vw;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background-color: #222222;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Textarea */
+.lead-form textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* Focus */
+.lead-form input:focus,
+.lead-form textarea:focus {
+  outline: none;
+  border-color: #d2f176;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Row layout */
+.lead-form .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2vw;
+  margin-bottom: 24px;
+}
+
+/* Single column spacing */
+.lead-form > div {
+  margin-bottom: 3vw;
+}
+
+/* Radio groups */
+.lead-form .row > div > label {
+  margin-bottom: 1vw;
+}
+
+/* Radio items */
+input[type="radio"] {
+  margin-right: 1vw;
+  accent-color: #d2f176;
+}
+
+/* Radio label inline */
+.lead-form .row label input[type="radio"] {
+  display: inline-block;
+}
+
+.lead-form .row label {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  color: #eeeeee;
+
+  cursor: pointer;
+  margin-bottom: 1vw;
+}
+
+.radio-label {
+  border: 2px solid #5a5a5a;
+  padding: 1vw;
+  border-radius: 10px;
+}
+
+/* Radio seleccionado → borde y texto verde */
+.radio-label:has(input[type="radio"]:checked) {
+  border-color: #d2f176;
+  color: #d2f176;
+}
+
+/* Appointment organizer ocupa todo el ancho y divide en 3 columnas */
+.lead-form .row > div:nth-child(3) {
+  grid-column: 1 / -1; /* pasa de 50% a 100% */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2vw;
+}
+
+/* Título en su propia fila */
+.lead-form .row > div:nth-child(3) > label:first-of-type {
+  grid-column: 1 / -1;
+}
+
+/* Cada radio ocupa exactamente 1/3 */
+.lead-form .row > div:nth-child(3) .radio-label {
+  width: 100%;
+}
+
+/* Success / Error */
+.lead-form .success {
+  margin-top: 2vw;
+  color: #059669;
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.lead-form .error {
+  margin-top: 2vw;
+  color: #fa9747;
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.lead-form-button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-icon {
+  width: 1.7vw;
+  height: 1.9vw;
+  margin-right: 0.5vw;
+  stroke: #d2f176;
+}
+
+.calendar-icon {
+  width: 1.9vw;
+  height: 1.9vw;
+  margin-right: 0.5vw;
+  stroke: #222222;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  margin-top: 1vw;
+}
+
+.file-button {
+  width: 16vw;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  padding: 1vw 2vw;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #828282;
+  border: 2px solid #adadad;
+}
+
+.file-button.file-selected {
+  border-color: #d2f176;
+  color: #d2f176;
+}
+
+.file-name {
+  font-size: 1vw;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20vw;
+}
+
+/* Responsive */

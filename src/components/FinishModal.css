@@ -1,0 +1,23 @@
+.FinishModal {
+  height: 50vw;
+  display: flex;
+  padding-top: 6vw;
+  align-items: center;
+  flex-direction: column;
+  border: 2px solid #d2f176;
+  border-radius: 10px;
+}
+
+.finish-icon {
+  width: 20vw;
+  height: 20vw;
+  padding: 1vw;
+  background-color: #333333;
+  border-radius: 100%;
+  stroke: #d2f176;
+}
+
+.finish-message {
+  margin: 2vw 0 4vw;
+  font-size: 4vw;
+}

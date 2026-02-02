@@ -1,0 +1,133 @@
+.slot-select {
+  position: relative;
+  padding-bottom: 0vw;
+}
+.leave {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.day-headers {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1vw;
+  margin-bottom: 0.8vw;
+}
+
+.day-headers span {
+  text-align: center;
+  font-size: 0.9vw;
+  font-weight: 600;
+  color: #9ca3af; /* gris suave */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dropdown-container {
+  width: 100%;
+  margin: 1vw auto 3vw;
+}
+
+.dropdown-options {
+  width: 100%;
+  left: 0;
+  transition: 0.3s;
+  background-origin: 2px solid gray;
+  will-change: opacity;
+  display: grid;
+  gap: 1vw;
+  grid-template-columns: repeat(auto-fit, minmax(16%, 1fr));
+}
+
+.dropdown-options p {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 1vw;
+  cursor: pointer;
+  font-size: 1.5vw;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  background-color: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.date-complete {
+}
+
+.date-incomplete {
+}
+
+ul {
+  width: 100%;
+  margin: 1vw auto 4vw;
+  list-style: none;
+  display: grid;
+  gap: 1vw;
+  grid-template-columns: repeat(auto-fit, minmax(16%, 1fr));
+}
+
+.time-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+  height: 4vw;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1.5vw 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.5vw;
+  font-weight: 500;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+.confirmation {
+  width: 70%;
+  margin-left: 30%;
+  padding: 2vw 4vw;
+  font-size: 1.5vw;
+  border-radius: 10px;
+  background-color: #222222;
+}
+
+.confirmation-value {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirmation span {
+  font-weight: 500;
+  color: #d2f176;
+}
+
+.confirmation .value {
+  color: #eeeeee;
+  font-weight: 400;
+  margin-left: 10px;
+}
+
+.slot-select-button-container {
+  width: 100%;
+  margin: 2vw auto 0;
+  display: flex;
+  bottom: 3vw;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.slot-error {
+  margin-top: 2vw;
+  color: #fa9747; /* rojo claro */
+  font-size: 1.2vw;
+  text-align: end;
+}
