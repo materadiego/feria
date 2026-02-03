@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/feria/static/css/main.a40670c6.css",
+    "main.css": "/feria/static/css/main.967af11f.css",
     "main.js": "/feria/static/js/main.82d3b722.js",
     "static/js/453.8333b035.chunk.js": "/feria/static/js/453.8333b035.chunk.js",
     "static/media/worldteams-logo-light.svg": "/feria/static/media/worldteams-logo-light.a85064f70c39b7810709db9487f4763a.svg",
     "index.html": "/feria/index.html",
     "static/media/loader.svg": "/feria/static/media/loader.54b5ebaece87a56ddb9a2c7972d1c791.svg",
-    "main.a40670c6.css.map": "/feria/static/css/main.a40670c6.css.map",
+    "main.967af11f.css.map": "/feria/static/css/main.967af11f.css.map",
     "main.82d3b722.js.map": "/feria/static/js/main.82d3b722.js.map",
     "453.8333b035.chunk.js.map": "/feria/static/js/453.8333b035.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a40670c6.css",
+    "static/css/main.967af11f.css",
     "static/js/main.82d3b722.js"
   ]
 }
