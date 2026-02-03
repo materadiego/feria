@@ -41,19 +41,6 @@ button {
   align-items: center;
 }
 
-.file-button {
-  width: 16vw;
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  padding: 1vw 2vw;
-  border-radius: 5px;
-  border: 2px solid #d2f176;
-  cursor: pointer;
-  background-color: transparent;
-  color: #828282;
-  border: 2px solid #adadad;
-}
-
 button.solid {
   background-color: #d2f176;
   color: #333333;
