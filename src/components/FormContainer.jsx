@@ -113,7 +113,7 @@ export const FormContainer = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error enviando los datos");
+        throw new Error("Error sending data");
       }
 
       const result = await response.json();
@@ -130,7 +130,7 @@ export const FormContainer = () => {
       }
     } catch (err) {
       console.error(err);
-      setError("No se pudo enviar el formulario. Intente nuevamente.");
+      setError("The form could not be submitted. Please try again");
     } finally {
       setLoading(false);
     }

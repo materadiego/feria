@@ -98,7 +98,7 @@ export default function LeadForm({
       </div>
 
       <div>
-        <label>Comentarios</label>
+        <label>Comments</label>
         <textarea
           name="comments"
           value={formData.comments}
