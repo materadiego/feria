@@ -63,20 +63,20 @@ export const FormContainer = () => {
     const scheduleAppointment = submitter?.value === "true";
 
     // 👉 Validación obligatoria
-    if (!formData.email) {
-      setError("Email is required");
-      return;
-    } else if (!formData.firstName) {
-      setError("First name is required");
+    if (!formData.firstName) {
+      setError("“First name” is required");
       return;
     } else if (!formData.lastName) {
-      setError("Last name is required");
+      setError("“Last name” is required");
+      return;
+    } else if (!formData.email) {
+      setError("“Email” is required");
       return;
     } else if (!formData.takenBy) {
-      setError("Data taken by is required");
+      setError("“Data taken by” is required");
       return;
     } else if (!formData.temperature) {
-      setError("Temperature by is required");
+      setError("“Temperature” by is required");
       return;
     }
     // 👉 Validación SOLO para Submit & Schedule

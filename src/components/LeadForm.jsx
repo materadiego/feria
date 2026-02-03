@@ -125,7 +125,7 @@ export default function LeadForm({
             justifyContent: "center",
           }}
         >
-          {formData.files?.length ? "Images selected" : "Upload images"}
+          {formData.files?.length ? "Image selected" : "Upload image"}
         </label>
 
         <input
