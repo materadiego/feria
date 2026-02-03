@@ -91,7 +91,7 @@ input[type="radio"] {
 
 .radio-label {
   border: 2px solid #5a5a5a;
-  padding: 1vw;
+  padding: 2vw;
   border-radius: 10px;
 }
 
@@ -164,7 +164,7 @@ input[type="radio"] {
   width: 16vw;
   font-family: "Inter", sans-serif;
   font-weight: 500;
-  padding: 1vw 2vw;
+  padding: 1.5vw 2vw;
   border-radius: 5px;
   cursor: pointer;
   background-color: transparent;

@@ -5,6 +5,16 @@
   font-family: "Inter", sans-serif;
   color: #ffffff;
 }
+
+html {
+  background: #222222;
+  background: linear-gradient(
+    0deg,
+    rgba(34, 34, 34, 1) 39%,
+    rgba(0, 0, 0, 1) 51%
+  );
+}
+
 .App {
   min-height: 100vh;
   /* background: radial-gradient(
@@ -34,7 +44,7 @@ button {
   font-weight: 500;
   padding: 0vw 2vw;
   border-radius: 5px;
-  height: 4.5vw;
+  height: 6vw;
   border: 2px solid #d2f176;
   cursor: pointer;
   display: flex;
