@@ -124,7 +124,6 @@ export default function LeadForm({
           type="file"
           name="files"
           accept="image/*"
-          multiple
           onChange={handleChange}
           hidden
         />

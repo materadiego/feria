@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LeadForm from "./LeadForm";
 import "./FormContainer.css";
 import { SlotSelect } from "./SlotSelect";
@@ -23,6 +23,10 @@ export const FormContainer = () => {
     comments: "",
     files: null,
   });
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [step]);
 
   const resetForm = () => {
     setFormData({
@@ -90,11 +94,16 @@ export const FormContainer = () => {
           payload.append(key, value);
         }
       });
+
       if (formData.files) {
         Array.from(formData.files).forEach((file) => {
           payload.append("files", file);
         });
       }
+
+      // 👉 NUEVO FLAG
+      const containsFiles = !!(formData.files && formData.files.length > 0);
+      payload.append("containsFiles", containsFiles);
 
       payload.append("scheduleAppointment", scheduleAppointment);
 
