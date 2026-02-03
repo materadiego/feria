@@ -1,6 +1,6 @@
 import "./LeadForm.css";
 import loader from "../loader.svg";
-import { CalendarIcon, UserIcon } from "@heroicons/react/24/outline";
+import { CalendarIcon, PhotoIcon, UserIcon } from "@heroicons/react/24/outline";
 
 export default function LeadForm({
   formData,
@@ -17,7 +17,9 @@ export default function LeadForm({
 
       <div className="row">
         <div>
-          <label>First Name</label>
+          <label>
+            First Name <span className="required-field">*</span>
+          </label>
           <input
             type="text"
             name="firstName"
@@ -26,7 +28,9 @@ export default function LeadForm({
           />
         </div>
         <div>
-          <label>Last Name</label>
+          <label>
+            Last Name <span className="required-field">*</span>
+          </label>
           <input
             type="text"
             name="lastName"
@@ -35,7 +39,9 @@ export default function LeadForm({
           />
         </div>
         <div>
-          <label>Email</label>
+          <label>
+            Email <span className="required-field">*</span>
+          </label>
           <input
             type="email"
             name="email"
@@ -57,8 +63,10 @@ export default function LeadForm({
 
       <div className="row">
         <div>
-          <label>Data taken by</label>
-          {["Camila Brugger", "Camila Malvaso", "Martina Obregon"].map(
+          <label>
+            Data taken by <span className="required-field">*</span>
+          </label>
+          {["Camila Brugger", "Camila Malvaso", "Martina Obregón"].map(
             (name) => (
               <label key={name} className="radio-label">
                 <input
@@ -75,7 +83,9 @@ export default function LeadForm({
         </div>
 
         <div>
-          <label>Temperature</label>
+          <label>
+            Temperature <span className="required-field">*</span>
+          </label>
           {["Cold", "Warm", "Hot"].map((temp) => (
             <label key={temp} className="radio-label">
               <input
@@ -125,6 +135,8 @@ export default function LeadForm({
             justifyContent: "center",
           }}
         >
+          {" "}
+          <PhotoIcon className="photo-icon" />
           {formData.files?.length ? "Image selected" : "Upload image"}
         </label>
 

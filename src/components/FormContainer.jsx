@@ -10,7 +10,7 @@ export const FormContainer = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [step, setStep] = useState(1); // 1 = form, 2 = slots
+  const [step, setStep] = useState(3); // 1 = form, 2 = slots
   const [selectModal, setSelectModal] = useState(true);
   const [slotsData, setSlotsData] = useState([]);
   const [formData, setFormData] = useState({

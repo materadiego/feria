@@ -9,6 +9,13 @@
   right: 0;
 }
 
+.arrow-icon {
+  width: 2vw;
+  height: 2vw;
+  margin-right: 1vw;
+  stroke: #e5e7eb;
+}
+
 .day-headers {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -65,9 +72,69 @@
   color: #d2f176;
 }
 
+.timeslot-container {
+  position: relative;
+  margin-bottom: 1vw;
+}
+
+.timezone-container {
+  width: 35%;
+  margin: 0 0 4vw;
+}
+
+.timezone-label {
+  color: #c8c8c8;
+  margin-bottom: 1vw;
+}
+
+.timezone-subcontainer {
+  border: 1px solid #a0a0a0;
+  border-radius: 5px;
+  position: relative;
+}
+
+.selected-timezone {
+  color: #a0a0a0;
+  padding: 1vw 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.6vw;
+}
+
+.time-zone-icon {
+  stroke: #848484;
+  width: 2.5vw;
+  height: 2.5vw;
+}
+
+.time-zone-icon.opened {
+  transform: rotate(-180deg);
+  transition: 0.3s;
+}
+
+.timezone-options {
+  border: 1px solid #a0a0a0;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.timezone-option {
+  padding: 1.5vw 2vw;
+  color: #a0a0a0;
+  font-size: 1.6vw;
+}
+
+.timezone-option.timezone-option-selected {
+  color: #d2f176;
+}
+
 ul {
   width: 100%;
-  margin: 1vw auto 4vw;
+  margin: 3vw auto 4vw;
   list-style: none;
   display: grid;
   gap: 1vw;

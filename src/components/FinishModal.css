@@ -4,7 +4,7 @@
   padding-top: 6vw;
   align-items: center;
   flex-direction: column;
-  border: 2px solid #d2f176;
+  border: 2px solid #7c8f45;
   border-radius: 10px;
 }
 
@@ -12,7 +12,7 @@
   width: 20vw;
   height: 20vw;
   padding: 1vw;
-  background-color: #333333;
+  background-color: #000000;
   border-radius: 100%;
   stroke: #d2f176;
 }

@@ -1,6 +1,11 @@
 import "./SlotSelect.css";
 import { useState } from "react";
 import loader from "../loader.svg";
+import {
+  ArrowUturnLeftIcon,
+  BarsArrowDownIcon,
+  CalendarIcon,
+} from "@heroicons/react/24/outline";
 
 const ALL_TIMES = [
   "10:00",
@@ -18,6 +23,65 @@ const ALL_TIMES = [
   "16:00",
   "16:30",
   "17:00",
+];
+
+const TIMEZONES = [
+  {
+    region: "Argentina",
+    name: "Argentina (UTC-3)",
+    utc: "UTC-3",
+    utcOffset: -3,
+    diffWithArgentina: 0,
+  },
+  {
+    region: "USA / Canada",
+    name: "Eastern, US/Canada (UTC-5)",
+    utc: "UTC-5",
+    utcOffset: -5,
+    diffWithArgentina: -2,
+  },
+  {
+    region: "USA / Canada",
+    name: "Central, US/Canada (UTC-6)",
+    utc: "UTC-6",
+    utcOffset: -6,
+    diffWithArgentina: -3,
+  },
+  {
+    region: "USA / Canada",
+    name: "Mountain, US/Canada (UTC-7)",
+    utc: "UTC-7",
+    utcOffset: -7,
+    diffWithArgentina: -4,
+  },
+  {
+    region: "USA / Canada",
+    name: "Pacific, US/Canada (UTC-8)",
+    utc: "UTC-8",
+    utcOffset: -8,
+    diffWithArgentina: -5,
+  },
+  {
+    region: "USA",
+    name: "Alaska, US (UTC-9)",
+    utc: "UTC-9",
+    utcOffset: -9,
+    diffWithArgentina: -6,
+  },
+  {
+    region: "USA",
+    name: "Hawaii-Aleutian, US (UTC-10)",
+    utc: "UTC-10",
+    utcOffset: -10,
+    diffWithArgentina: -7,
+  },
+  {
+    region: "Canada",
+    name: "Atlantic, Canada (UTC-4)",
+    utc: "UTC-4",
+    utcOffset: -4,
+    diffWithArgentina: -1,
+  },
 ];
 
 const N8N_WEBHOOK_URL_SCHEDULE =
@@ -38,9 +102,17 @@ export const SlotSelect = ({
 }) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedTimeArg, setSelectedTimeArg] = useState("");
   const [optionsOpened, setOptionsOpened] = useState(false);
   const [unavailableTimes, setUnavailableTimes] = useState([]);
-
+  const [openTimezoneOptions, setOpenTimezoneOptions] = useState(false);
+  const [selectedTimezone, setSelectedTimezone] = useState({
+    region: "USA / Canada",
+    name: "Eastern, US/Canada (UTC-5)",
+    utc: "UTC-5",
+    utcOffset: -5,
+    diffWithArgentina: -2,
+  });
   /* ---------- HELPERS ---------- */
 
   const hasMissingSlots = (slot) => {
@@ -68,6 +140,29 @@ export const SlotSelect = ({
     setSelectedTime(time);
   };
 
+  const timeToMinutes = (time) => {
+    const [h, m] = time.split(":").map(Number);
+    return h * 60 + m;
+  };
+
+  const minutesToTime = (minutes) => {
+    const h = Math.floor(minutes / 60)
+      .toString()
+      .padStart(2, "0");
+    const m = (minutes % 60).toString().padStart(2, "0");
+    return `${h}:${m}`;
+  };
+
+  // Convierte hora ARG (UTC-3) → timezone seleccionado
+  const convertFromArgentina = (time, diff) => {
+    return minutesToTime(timeToMinutes(time) + diff * 60);
+  };
+
+  // Convierte hora timezone → ARG (UTC-3)
+  const convertToArgentina = (time, diff) => {
+    return minutesToTime(timeToMinutes(time) - diff * 60);
+  };
+
   /* ---------- SUBMIT ---------- */
 
   const handleSubmitSlot = async () => {
@@ -88,7 +183,7 @@ export const SlotSelect = ({
       company: formData.companyName,
       dataTakenBy: formData.takenBy,
       date: selectedDate.date,
-      time: selectedTime,
+      time: selectedTimeArg,
     };
 
     try {
@@ -141,22 +236,21 @@ export const SlotSelect = ({
       <h2>Schedule Appointment</h2>
       <div className="leave">
         <button className="transparent-gray" onClick={() => resetForm()}>
-          Leave without scheduling
+          <ArrowUturnLeftIcon className="arrow-icon" /> Leave without scheduling
         </button>
       </div>
-
-      <h3>Select available date:</h3>
-      {/* DATE DROPDOWN */}
-      {/* DAY HEADERS */}
-      <div className="day-headers">
-        <span>Monday</span>
-        <span>Tuesday</span>
-        <span>Wednesday</span>
-        <span>Thursday</span>
-        <span>Friday</span>
-      </div>
-
       <div className="dropdown-container">
+        <h3>Select available date:</h3>
+        {/* DATE DROPDOWN */}
+        {/* DAY HEADERS */}
+        <div className="day-headers">
+          <span>Monday</span>
+          <span>Tuesday</span>
+          <span>Wednesday</span>
+          <span>Thursday</span>
+          <span>Friday</span>
+        </div>
+
         <div className={`dropdown-options ${optionsOpened ? "appear" : ""}`}>
           {slotsData.map((slot) => {
             const incomplete = hasMissingSlots(slot);
@@ -181,31 +275,73 @@ export const SlotSelect = ({
       </div>
 
       {/* TIME GRID */}
-      <h3>Select available time slot:</h3>
-
-      <ul>
-        {ALL_TIMES.map((time) => {
-          const available = isTimeAvailable(time);
-          const selected = selectedTime === time;
-
-          return (
-            <li
-              key={time}
-              onClick={() => handleTimeClick(time)}
-              className="time-option"
-              style={{
-                opacity: available ? 1 : 0.2,
-                cursor: available ? "pointer" : "default",
-                color: selected ? "#d2f176" : "#e5e7eb",
-                border: selected ? "2px solid #d2f176" : "2px solid #5a5a5a",
-              }}
+      <div className="timeslot-container">
+        <h3>Select available time slot:</h3>
+        <div className="timezone-container">
+          <p className="timezone-label">Timezone:</p>
+          <div className="timezone-subcontainer">
+            <p
+              className={`selected-timezone `}
+              onClick={() => setOpenTimezoneOptions(!openTimezoneOptions)}
             >
-              {time}
-            </li>
-          );
-        })}
-      </ul>
+              {selectedTimezone.name}{" "}
+              <BarsArrowDownIcon
+                className={`time-zone-icon ${openTimezoneOptions ? "opened" : ""}`}
+              />
+            </p>
+            {openTimezoneOptions && (
+              <div className="timezone-options">
+                {TIMEZONES.map((tz) => (
+                  <p
+                    key={tz.name}
+                    className={`timezone-option ${selectedTimezone.name === tz.name ? "timezone-option-selected" : ""}`}
+                    onClick={() => {
+                      setSelectedTimezone(tz);
+                      setOpenTimezoneOptions(false);
+                      setSelectedTime("");
+                      setSelectedTimeArg("");
+                    }}
+                  >
+                    {tz.name}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        <ul>
+          {ALL_TIMES.map((argTime) => {
+            const visualTime = convertFromArgentina(
+              argTime,
+              selectedTimezone.diffWithArgentina,
+            );
 
+            const available = isTimeAvailable(argTime);
+            const selected = selectedTime === visualTime;
+
+            return (
+              <li
+                key={argTime}
+                onClick={() => {
+                  if (!available) return;
+
+                  setSelectedTime(visualTime); // timezone aplicado
+                  setSelectedTimeArg(argTime); // hora real ARG
+                }}
+                className="time-option"
+                style={{
+                  opacity: available ? 1 : 0.2,
+                  cursor: available ? "pointer" : "default",
+                  color: selected ? "#d2f176" : "#e5e7eb",
+                  border: selected ? "2px solid #d2f176" : "2px solid #5a5a5a",
+                }}
+              >
+                {visualTime}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       {/* CONFIRMATION */}
 
       <div className="confirmation">
@@ -234,6 +370,13 @@ export const SlotSelect = ({
             {selectedTime ? selectedTime : ""}
           </span>
         </p>
+        <p className="confirmation-value">
+          <span>Selected slot arg:</span>
+          <span className="value">
+            {selectedDate.date ? selectedDate.date : ""} -{" "}
+            {selectedTimeArg ? selectedTimeArg : ""}
+          </span>
+        </p>
         <div className="slot-select-button-container">
           {loading ? (
             <div className="loader-container-slot-select">
@@ -245,7 +388,7 @@ export const SlotSelect = ({
               disabled={loading}
               onClick={handleSubmitSlot}
             >
-              Schedule Appointment
+              <CalendarIcon className="calendar-icon" /> Schedule Appointment
             </button>
           )}
         </div>
