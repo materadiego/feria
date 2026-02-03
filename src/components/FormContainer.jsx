@@ -15,7 +15,8 @@ export const FormContainer = () => {
   const [slotsData, setSlotsData] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
-    clientName: "",
+    firstName: "",
+    lastName: "",
     companyName: "",
     takenBy: "",
     temperature: "",
@@ -31,7 +32,8 @@ export const FormContainer = () => {
   const resetForm = () => {
     setFormData({
       email: "",
-      clientName: "",
+      firstName: "",
+      lastName: "",
       companyName: "",
       takenBy: "",
       temperature: "",
@@ -64,8 +66,11 @@ export const FormContainer = () => {
     if (!formData.email) {
       setError("Email is required");
       return;
-    } else if (!formData.clientName) {
-      setError("Client name is required");
+    } else if (!formData.firstName) {
+      setError("First name is required");
+      return;
+    } else if (!formData.lastName) {
+      setError("Last name is required");
       return;
     } else if (!formData.takenBy) {
       setError("Data taken by is required");

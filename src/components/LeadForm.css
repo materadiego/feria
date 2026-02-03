@@ -55,15 +55,21 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2vw;
-  margin-bottom: 24px;
+  margin-bottom: 3vw;
 }
 
-/* Single column spacing */
+/* 🔹 FIX: inputs en 2 filas x 2 columnas */
+.lead-form .row:first-of-type {
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: row;
+}
+
+/* Espaciado general */
 .lead-form > div {
   margin-bottom: 3vw;
 }
 
-/* Radio label inline y grupos */
+/* Radios base */
 input[type="radio"] {
   width: 16px;
   height: 16px;
@@ -71,13 +77,13 @@ input[type="radio"] {
   accent-color: #d2f176;
 }
 
+/* Radio labels */
 .lead-form .row label {
   display: flex;
   align-items: center;
   font-weight: 400;
   color: #eeeeee;
   cursor: pointer;
-  margin-bottom: 1vw;
 }
 
 .radio-label {
@@ -91,43 +97,69 @@ input[type="radio"] {
   color: #d2f176;
 }
 
-/* Appointment organizer ocupa todo el ancho y divide en 3 columnas */
-.lead-form .row > div:nth-child(3) {
+/* ===============================
+   DATA TAKEN BY (3 radios en una fila)
+   =============================== */
+.lead-form .row:nth-of-type(2) > div:nth-child(1) {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2vw;
+  row-gap: 0.5vw;
+}
+
+.lead-form .row:nth-of-type(2) > div:nth-child(1) > label:first-of-type {
+  grid-column: 1 / -1;
+}
+
+/* ===============================
+   TEMPERATURE (3 radios en una fila)
+   =============================== */
+.lead-form .row:nth-of-type(2) > div:nth-child(2) {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2vw;
+  row-gap: 0.5vw;
+}
+
+.lead-form .row:nth-of-type(2) > div:nth-child(2) > label:first-of-type {
+  grid-column: 1 / -1;
+}
+
+/* ===============================
+   APPOINTMENT ORGANIZER (igual que antes)
+   =============================== */
+.lead-form .row:nth-of-type(2) > div:nth-child(3) {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2vw;
+  column-gap: 2vw;
+  row-gap: 0.5vw;
 }
 
-/* Título en su propia fila */
-.lead-form .row > div:nth-child(3) > label:first-of-type {
+.lead-form .row:nth-of-type(2) > div:nth-child(3) > label:first-of-type {
   grid-column: 1 / -1;
 }
 
-/* Cada radio ocupa 100% */
-.lead-form .row > div:nth-child(3) .radio-label {
-  width: 100%;
-}
-
-/* Success / Error */
-.lead-form .success,
-.lead-form .error {
-  margin-top: 2vw;
-  font-size: 1vw;
-  font-weight: 500;
-}
-
-.lead-form .success {
-  color: #059669;
-}
-
-.lead-form .error {
-  color: #fa9747;
-}
-
+/* Buttons */
 .lead-form-button-container {
   display: flex;
   justify-content: space-between;
+}
+
+/* File upload */
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  margin-top: 1vw;
+}
+
+.file-button {
+  border: 1px solid #e5e7eb;
+  padding: 2vw 4vw;
+  border-radius: 5px;
 }
 
 .user-icon {
@@ -144,105 +176,40 @@ input[type="radio"] {
   stroke: #222222;
 }
 
-.file-upload {
-  display: flex;
-  align-items: center;
-  gap: 1vw;
-  margin-top: 1vw;
+/* Success / Error */
+.lead-form .success,
+.lead-form .error {
+  margin-top: 2vw;
+  font-size: 1.3vw;
+  font-weight: 400;
 }
 
-.file-button {
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  padding: 1.5vw 2vw;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: transparent;
-  color: #828282;
-  border: 2px solid #adadad;
+.lead-form .success {
+  color: #059669;
 }
 
-.file-button.file-selected {
-  border-color: #d2f176;
-  color: #d2f176;
+.lead-form .error {
+  color: #fa9747;
 }
 
-.file-name {
-  font-size: 1vw;
-  color: #9ca3af;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 20vw;
-}
-
-/* Responsive */
+/* ===============================
+   MOBILE (intacto)
+   =============================== */
 @media (max-width: 480px) {
-  .lead-form label {
-    font-size: 4vw;
-    margin-bottom: 5vw;
-  }
-
-  .lead-form input[type="text"],
-  .lead-form input[type="email"],
-  .lead-form textarea {
-    padding: 3vw;
-    font-size: 6vw;
-    border-radius: 5px;
-  }
-
   .lead-form .row {
     grid-template-columns: 1fr;
     gap: 0;
-    margin-bottom: 10vw;
   }
 
-  .lead-form > div {
-    margin-bottom: 4vw;
-  }
-
-  .lead-form .row > div > label {
-    margin: 2vw 0;
-  }
-
-  input[type="radio"] {
-    margin-right: 5vw;
-  }
-
-  .radio-label {
-    padding: 4vw;
-    border-radius: 5px;
-  }
-
-  .lead-form .row > div:nth-child(3) {
-    grid-template-columns: 1fr;
-    gap: 3vw;
-  }
-
-  .lead-form .success,
-  .lead-form .error {
-    margin-top: 10vw;
-    font-size: 5vw;
+  .lead-form .row > div {
+    grid-template-columns: 1fr !important;
   }
 
   .lead-form-button-container {
     flex-direction: column;
   }
 
-  .user-icon,
-  .calendar-icon {
-    width: 7vw;
-    height: 7vw;
-    margin-right: 3vw;
-  }
-
-  .file-upload {
-    margin-top: 2vw;
-  }
-
   .file-button {
     width: 100%;
-    padding: 4vw 2vw;
-    border-radius: 3px;
   }
 }

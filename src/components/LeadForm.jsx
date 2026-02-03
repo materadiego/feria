@@ -14,23 +14,32 @@ export default function LeadForm({
   return (
     <form onSubmit={handleSubmit} className="lead-form">
       <h2>Lead Data</h2>
-      <div>
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </div>
 
       <div className="row">
         <div>
-          <label>Client Name</label>
+          <label>First Name</label>
           <input
             type="text"
-            name="clientName"
-            value={formData.clientName}
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
           />
         </div>
@@ -67,7 +76,7 @@ export default function LeadForm({
 
         <div>
           <label>Temperature</label>
-          {["Hot", "Warm", "Cold"].map((temp) => (
+          {["Cold", "Warm", "Hot"].map((temp) => (
             <label key={temp} className="radio-label">
               <input
                 type="radio"

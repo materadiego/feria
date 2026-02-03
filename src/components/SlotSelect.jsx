@@ -72,7 +72,7 @@ export const SlotSelect = ({
 
   const handleSubmitSlot = async () => {
     if (!selectedDate || !selectedTime) {
-      setError("Debes seleccionar una fecha y un horario.");
+      setError("You must select a date and time");
       return;
     }
 
@@ -83,7 +83,8 @@ export const SlotSelect = ({
     const payload = {
       organizer: formData.organizer,
       email: formData.email,
-      name: formData.clientName,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       company: formData.companyName,
       dataTakenBy: formData.takenBy,
       date: selectedDate.date,
@@ -117,7 +118,8 @@ export const SlotSelect = ({
 
       setFormData({
         email: "",
-        clientName: "",
+        firstName: "",
+        lastName: "",
         companyName: "",
         takenBy: "",
         temperature: "",
@@ -213,7 +215,9 @@ export const SlotSelect = ({
         </p>
         <p className="confirmation-value">
           <span>Name:</span>
-          <span className="value">{formData.clientName}</span>
+          <span className="value">
+            {formData.firstName} {formData.lastName}
+          </span>
         </p>
         <p className="confirmation-value">
           <span>Email:</span>
