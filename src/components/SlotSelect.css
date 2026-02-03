@@ -42,6 +42,7 @@
 
 .dropdown-options p {
   display: flex;
+  flex-direction: column;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -53,6 +54,16 @@
   background-color: transparent;
   border-radius: 10px;
   cursor: pointer;
+  position: relative;
+}
+
+.dropdown-options p span {
+  font-size: 1vw;
+  position: absolute;
+  top: 0.5vw;
+  right: 0.5vw;
+  font-weight: 300;
+  color: #d2f176;
 }
 
 .date-complete {

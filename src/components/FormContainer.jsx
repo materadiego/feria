@@ -112,7 +112,7 @@ export const FormContainer = () => {
 
       // 👉 SOLO si quiere agendar
       if (scheduleAppointment) {
-        const slots = result.availability || [];
+        const slots = result.availabilty || [];
         setSlotsData(slots);
         setStep(2);
       } else {

@@ -39,6 +39,7 @@ export const SlotSelect = ({
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [optionsOpened, setOptionsOpened] = useState(false);
+  const [unavailableTimes, setUnavailableTimes] = useState([]);
 
   /* ---------- HELPERS ---------- */
 
@@ -57,7 +58,9 @@ export const SlotSelect = ({
 
   const isTimeAvailable = (time) => {
     if (!selectedDate) return false;
-    return selectedDate.slots.includes(time);
+    return (
+      selectedDate.slots.includes(time) && !unavailableTimes.includes(time)
+    );
   };
 
   const handleTimeClick = (time) => {
@@ -82,6 +85,7 @@ export const SlotSelect = ({
       email: formData.email,
       name: formData.clientName,
       company: formData.companyName,
+      dataTakenBy: formData.takenBy,
       date: selectedDate.date,
       time: selectedTime,
     };
@@ -92,12 +96,22 @@ export const SlotSelect = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
+      console.log(response);
       if (!response.ok) {
         throw new Error("No se pudo confirmar el turno. Intente nuevamente.");
       }
 
-      await response.json();
+      const data = await response.json();
+      console.log("Response data:", data);
+      if ("canSchedule" in data && data.canSchedule === false) {
+        setUnavailableTimes((prev) => [...prev, selectedTime]);
+
+        throw new Error(
+          "The appointment has already been taken by someone else, please select a different time slot",
+        );
+      }
+
+      console.log("data: ", data);
       setSuccess(true);
       setStep(3);
 
@@ -157,6 +171,7 @@ export const SlotSelect = ({
                 }}
               >
                 {slot.date}
+                <span>{slot.availability}</span>
               </p>
             );
           })}
