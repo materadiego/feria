@@ -110,7 +110,7 @@ export default function LeadForm({
           htmlFor="files"
           className={`file-button ${formData.files?.length ? "file-selected" : ""}`}
           style={{
-            fontSize: "1.2vw",
+            fontSize: "14px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

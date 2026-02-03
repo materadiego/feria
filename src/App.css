@@ -82,3 +82,63 @@ button.transparent-green {
   opacity: 0.6;
   box-shadow: none;
 }
+
+@media (max-width: 480px) {
+  h2 {
+    margin-bottom: 5vw;
+    color: #d2f176;
+    font-family: "Inter", sans-serif;
+  }
+
+  h3 {
+    margin-bottom: 4vw;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+  }
+
+  button {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    padding: 0vw 3vw;
+    border-radius: 5px;
+    height: 12vw;
+    border: 2px solid #d2f176;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5vw;
+  }
+
+  button.solid {
+    background-color: #d2f176;
+    color: #333333;
+    border: 2px solid #d2f176;
+    font-size: 5vw;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  button.transparent-gray {
+    background-color: transparent;
+    color: #828282;
+    border: 2px solid #adadad;
+    font-size: 5vw;
+  }
+
+  button.transparent-green {
+    background-color: transparent;
+    color: #d2f176;
+    border: 2px solid #d2f176;
+    font-size: 5vw;
+  }
+
+  .lead-form button[type="submit"]:hover:not(:disabled) {
+  }
+
+  /* Disabled */
+  .lead-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    box-shadow: none;
+  }
+}

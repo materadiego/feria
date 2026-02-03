@@ -142,3 +142,124 @@ ul {
   font-size: 1.2vw;
   text-align: end;
 }
+@media (max-width: 480px) {
+  .slot-select {
+    position: relative;
+    padding-bottom: 10vw;
+  }
+  .leave {
+    position: relative;
+  }
+
+  .day-headers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1vw;
+    margin-bottom: 0.8vw;
+  }
+
+  .day-headers span {
+    text-align: center;
+    font-size: 2vw;
+    font-weight: 600;
+    color: #9ca3af; /* gris suave */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .dropdown-container {
+    width: 100%;
+    margin: 3vw auto 10vw;
+  }
+
+  .dropdown-options {
+    width: 100%;
+    left: 0;
+    transition: 0.3s;
+    background-origin: 2px solid gray;
+    will-change: opacity;
+    display: grid;
+    gap: 1vw;
+    grid-template-columns: repeat(auto-fit, minmax(16%, 1fr));
+  }
+
+  .dropdown-options p {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw 1vw;
+    cursor: pointer;
+    font-size: 2vw;
+    font-weight: 500;
+    border: 1px solid #e5e7eb;
+    background-color: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .dropdown-options p span {
+    font-size: 2vw;
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+    font-weight: 300;
+    color: #d2f176;
+  }
+
+  .date-complete {
+  }
+
+  .date-incomplete {
+  }
+
+  ul {
+    width: 100%;
+    margin: 1vw auto 4vw;
+    list-style: none;
+    display: grid;
+    gap: 1vw;
+    grid-template-columns: repeat(auto-fit, minmax(32%, 1fr));
+  }
+
+  .time-option {
+    padding: 6vw 0;
+    font-size: 5vw;
+    border-radius: 5px;
+  }
+  .confirmation {
+    width: 100%;
+    margin-left: 0;
+    padding: 8vw 6vw 4vw;
+    font-size: 4vw;
+    border-radius: 10px;
+    background-color: #222222;
+  }
+
+  .confirmation-value {
+  }
+
+  .confirmation span {
+  }
+
+  .confirmation .value {
+  }
+
+  .slot-select-button-container {
+    width: 100%;
+    margin: 10vw auto 0;
+    display: flex;
+    bottom: 3vw;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slot-error {
+    margin-top: 2vw;
+    color: #fa9747; /* rojo claro */
+    font-size: 1.2vw;
+    text-align: end;
+  }
+}
