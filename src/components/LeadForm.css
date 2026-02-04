@@ -210,7 +210,37 @@ input[type="radio"] {
 @media (max-width: 480px) {
   .lead-form .row {
     grid-template-columns: 1fr;
-    gap: 0;
+    row-gap: 4vw;
+    margin-bottom: 5vw;
+  }
+
+  .lead-form label {
+    font-size: 4vw;
+    margin-bottom: 1.5vw;
+  }
+
+  .lead-form .row:first-of-type {
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+  }
+
+  .lead-form input[type="text"],
+  .lead-form input[type="email"],
+  .lead-form textarea {
+    padding: 3vw;
+    font-size: 4vw;
+    border-radius: 4px;
+  }
+
+  .radio-label {
+    padding: 4vw;
+    border-radius: 7px;
+  }
+
+  input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin-right: 4vw;
   }
 
   .lead-form .row > div {
@@ -223,5 +253,27 @@ input[type="radio"] {
 
   .file-button {
     width: 100%;
+    margin-bottom: 10vw;
+  }
+
+  .photo-icon {
+    width: 5vw;
+    height: 5vw;
+    margin-right: 2vw;
+  }
+
+  .user-icon {
+    width: 6vw;
+    height: 6vw;
+    margin-right: 2vw;
+  }
+
+  .calendar-icon {
+    width: 6vw;
+    height: 6vw;
+    margin-right: 2vw;
+  }
+
+  .lead-form-button-container {
   }
 }

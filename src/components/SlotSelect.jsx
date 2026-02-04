@@ -163,6 +163,13 @@ export const SlotSelect = ({
     return minutesToTime(timeToMinutes(time) - diff * 60);
   };
 
+  const formatDateForDisplay = (date) => {
+    // Espera formato DD/MM/YYYY
+    if (!date) return "";
+    const [day, month] = date.split("/");
+    return `${day}/${month}`;
+  };
+
   /* ---------- SUBMIT ---------- */
 
   const handleSubmitSlot = async () => {
@@ -266,7 +273,7 @@ export const SlotSelect = ({
                   border: selected ? "2px solid #d2f176" : "2px solid #5a5a5a",
                 }}
               >
-                {slot.date}
+                {formatDateForDisplay(slot.date)}
                 <span>{slot.availability}</span>
               </p>
             );
