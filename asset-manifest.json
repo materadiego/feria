@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/feria/static/css/main.a8ccad7c.css",
-    "main.js": "/feria/static/js/main.8a2d14d4.js",
+    "main.css": "/feria/static/css/main.7a868807.css",
+    "main.js": "/feria/static/js/main.2d75029a.js",
     "static/js/453.8333b035.chunk.js": "/feria/static/js/453.8333b035.chunk.js",
     "static/media/worldteams-logo-light.svg": "/feria/static/media/worldteams-logo-light.a85064f70c39b7810709db9487f4763a.svg",
     "index.html": "/feria/index.html",
     "static/media/loader.svg": "/feria/static/media/loader.54b5ebaece87a56ddb9a2c7972d1c791.svg",
-    "main.a8ccad7c.css.map": "/feria/static/css/main.a8ccad7c.css.map",
-    "main.8a2d14d4.js.map": "/feria/static/js/main.8a2d14d4.js.map",
+    "main.7a868807.css.map": "/feria/static/css/main.7a868807.css.map",
+    "main.2d75029a.js.map": "/feria/static/js/main.2d75029a.js.map",
     "453.8333b035.chunk.js.map": "/feria/static/js/453.8333b035.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a8ccad7c.css",
-    "static/js/main.8a2d14d4.js"
+    "static/css/main.7a868807.css",
+    "static/js/main.2d75029a.js"
   ]
 }
