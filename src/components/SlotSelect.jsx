@@ -137,11 +137,6 @@ export const SlotSelect = ({
     );
   };
 
-  const handleTimeClick = (time) => {
-    if (!isTimeAvailable(time)) return;
-    setSelectedTime(time);
-  };
-
   const timeToMinutes = (time) => {
     const [h, m] = time.split(":").map(Number);
     return h * 60 + m;
@@ -158,11 +153,6 @@ export const SlotSelect = ({
   // Convierte hora ARG (UTC-3) → timezone seleccionado
   const convertFromArgentina = (time, diff) => {
     return minutesToTime(timeToMinutes(time) + diff * 60);
-  };
-
-  // Convierte hora timezone → ARG (UTC-3)
-  const convertToArgentina = (time, diff) => {
-    return minutesToTime(timeToMinutes(time) - diff * 60);
   };
 
   const formatDateForDisplay = (date) => {
@@ -262,7 +252,6 @@ export const SlotSelect = ({
 
         <div className={`dropdown-options ${optionsOpened ? "appear" : ""}`}>
           {slotsData.map((slot) => {
-            const incomplete = hasMissingSlots(slot);
             const selected = isDateSelected(slot);
 
             return (
