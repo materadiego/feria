@@ -58,7 +58,7 @@ export const FormContainer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("Submitting form with data:", formData);
     const submitter = e.nativeEvent.submitter;
     const scheduleAppointment = submitter?.value === "true";
 

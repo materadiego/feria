@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 const ALL_TIMES = [
+  "09:30",
   "10:00",
   "10:30",
   "11:00",
@@ -23,6 +24,7 @@ const ALL_TIMES = [
   "16:00",
   "16:30",
   "17:00",
+  "17:30",
 ];
 
 const TIMEZONES = [
