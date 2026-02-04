@@ -15,10 +15,12 @@ export const FormContainer = () => {
   const [slotsData, setSlotsData] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
+    phone: "",
     firstName: "",
     lastName: "",
     companyName: "",
     takenBy: "",
+    dm: "",
     temperature: "",
     organizer: "",
     comments: "",
@@ -32,10 +34,12 @@ export const FormContainer = () => {
   const resetForm = () => {
     setFormData({
       email: "",
+      phone: "",
       firstName: "",
       lastName: "",
       companyName: "",
       takenBy: "",
+      dm: "",
       temperature: "",
       organizer: "",
       comments: "",
@@ -56,9 +60,9 @@ export const FormContainer = () => {
     }));
   };
 
+  console.log("Submitting form with data:", formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form with data:", formData);
     const submitter = e.nativeEvent.submitter;
     const scheduleAppointment = submitter?.value === "true";
 
@@ -72,11 +76,17 @@ export const FormContainer = () => {
     } else if (!formData.email) {
       setError("“Email” is required");
       return;
+    } else if (!formData.companyName) {
+      setError("“Company name” is required");
+      return;
     } else if (!formData.takenBy) {
       setError("“Data taken by” is required");
       return;
+    } else if (!formData.dm) {
+      setError("“DM” is required");
+      return;
     } else if (!formData.temperature) {
-      setError("“Temperature” by is required");
+      setError("“T” is required");
       return;
     }
     // 👉 Validación SOLO para Submit & Schedule

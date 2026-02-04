@@ -24,6 +24,7 @@
 /* Inputs base */
 .lead-form input[type="text"],
 .lead-form input[type="email"],
+.lead-form input[type="number"],
 .lead-form textarea {
   width: 100%;
   padding: 2vw;
@@ -100,7 +101,7 @@ input[type="radio"] {
 /* ===============================
    DATA TAKEN BY (3 radios en una fila)
    =============================== */
-.lead-form .row:nth-of-type(2) > div:nth-child(1) {
+.lead-form .row:nth-of-type(4) > div:nth-child(1) {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -108,14 +109,29 @@ input[type="radio"] {
   row-gap: 0.5vw;
 }
 
-.lead-form .row:nth-of-type(2) > div:nth-child(1) > label:first-of-type {
+.lead-form .row:nth-of-type(4) > div:nth-child(1) > label:first-of-type {
+  grid-column: 1 / -1;
+}
+
+/* ===============================
+   DM (3 radios en una fila)
+   =============================== */
+.lead-form .row:nth-of-type(4) > div:nth-child(2) {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2vw;
+  row-gap: 0.5vw;
+}
+
+.lead-form .row:nth-of-type(4) > div:nth-child(2) > label:first-of-type {
   grid-column: 1 / -1;
 }
 
 /* ===============================
    TEMPERATURE (3 radios en una fila)
    =============================== */
-.lead-form .row:nth-of-type(2) > div:nth-child(2) {
+.lead-form .row:nth-of-type(4) > div:nth-child(3) {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -123,22 +139,42 @@ input[type="radio"] {
   row-gap: 0.5vw;
 }
 
-.lead-form .row:nth-of-type(2) > div:nth-child(2) > label:first-of-type {
+.lead-form .row:nth-of-type(4) > div:nth-child(3) > label:first-of-type {
   grid-column: 1 / -1;
 }
 
+.temperature-button {
+  display: inline-block;
+  width: 70%;
+  height: 2vw;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.temperature-button.Cold {
+  background-color: #3b82f6;
+}
+
+.temperature-button.Warm {
+  background-color: #f59e0b;
+}
+
+.temperature-button.Hot {
+  background-color: #ef4444;
+}
 /* ===============================
    APPOINTMENT ORGANIZER (igual que antes)
    =============================== */
-.lead-form .row:nth-of-type(2) > div:nth-child(3) {
+.lead-form .row:nth-of-type(4) > div:nth-child(4) {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2vw;
   row-gap: 0.5vw;
+  margin-bottom: 5vw;
 }
 
-.lead-form .row:nth-of-type(2) > div:nth-child(3) > label:first-of-type {
+.lead-form .row:nth-of-type(4) > div:nth-child(4) > label:first-of-type {
   grid-column: 1 / -1;
 }
 
@@ -168,8 +204,8 @@ input[type="radio"] {
 }
 
 .photo-icon {
-  width: 1.9vw;
-  height: 1.9vw;
+  width: 2.2vw;
+  height: 2.2vw;
   stroke: #e5e7eb;
   margin-right: 0.5vw;
 }
@@ -226,6 +262,7 @@ input[type="radio"] {
 
   .lead-form input[type="text"],
   .lead-form input[type="email"],
+  .lead-form input[type="number"],
   .lead-form textarea {
     padding: 3vw;
     font-size: 4vw;
@@ -245,6 +282,12 @@ input[type="radio"] {
 
   .lead-form .row > div {
     grid-template-columns: 1fr !important;
+  }
+
+  .temperature-button {
+    height: 5vw;
+    border-radius: 5px;
+    margin: 0 auto;
   }
 
   .lead-form-button-container {
