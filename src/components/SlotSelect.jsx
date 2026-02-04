@@ -117,11 +117,6 @@ export const SlotSelect = ({
   });
   /* ---------- HELPERS ---------- */
 
-  const hasMissingSlots = (slot) => {
-    if (!Array.isArray(slot.slots)) return true;
-    return ALL_TIMES.some((time) => !slot.slots.includes(time));
-  };
-
   const isDateSelected = (slot) => selectedDate?.date === slot.date;
 
   const selectSlotList = (slot) => {
