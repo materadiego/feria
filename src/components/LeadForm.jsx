@@ -116,7 +116,7 @@ export default function LeadForm({
           <label>
             Data taken by <span className="required-field">*</span>
           </label>
-          {["Camila Brugger", "Camila Malvaso", "Martina Obregón"].map(
+          {["Camila Brugger", "Camila Malvaso", "Martina Obregon"].map(
             (name) => (
               <label key={name} className="radio-label">
                 <input
