@@ -56,6 +56,7 @@ export default function LeadForm({
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            className="no-spinner"
           />
         </div>
         <div>
