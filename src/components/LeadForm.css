@@ -39,7 +39,7 @@
 
 /* Textarea */
 .lead-form textarea {
-  min-height: 90px;
+  min-height: 12vw;
   resize: none;
 }
 
@@ -165,6 +165,13 @@ input[type="radio"] {
 /* ===============================
    APPOINTMENT ORGANIZER (igual que antes)
    =============================== */
+.required-meeting-field {
+  color: #808080;
+  margin-left: 0.5vw;
+  font-size: 1vw;
+  margin-top: 0.3vw;
+}
+
 .lead-form .row:nth-of-type(4) > div:nth-child(4) {
   grid-column: 1 / -1;
   display: grid;

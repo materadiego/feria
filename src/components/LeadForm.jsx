@@ -166,7 +166,12 @@ export default function LeadForm({
           ))}
         </div>
         <div className="appointment-organizer">
-          <label>Appointment organizer</label>
+          <label>
+            Appointment organizer{" "}
+            <span className="required-meeting-field">
+              *(Required if a meet will be scheduled)
+            </span>
+          </label>
           {["Malena Brugger", "Martina Zajdman"].map((temp) => (
             <label key={temp} className="radio-label">
               <input

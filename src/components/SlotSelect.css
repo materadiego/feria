@@ -106,11 +106,12 @@
   stroke: #848484;
   width: 2.5vw;
   height: 2.5vw;
+  transition: 0.3s;
+  will-change: transform;
 }
 
 .time-zone-icon.opened {
   transform: rotate(-180deg);
-  transition: 0.3s;
 }
 
 .timezone-options {

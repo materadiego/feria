@@ -60,11 +60,11 @@ export const FormContainer = () => {
     }));
   };
 
-  console.log("Submitting form with data:", formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const submitter = e.nativeEvent.submitter;
     const scheduleAppointment = submitter?.value === "true";
+    console.log("Submitting form with data:", formData);
 
     // 👉 Validación obligatoria
     if (!formData.firstName) {
