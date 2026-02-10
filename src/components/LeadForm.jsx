@@ -1,6 +1,7 @@
 import "./LeadForm.css";
 import loader from "../loader.svg";
 import { CalendarIcon, PhotoIcon, UserIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
 export default function LeadForm({
   formData,
@@ -8,9 +9,35 @@ export default function LeadForm({
   handleSubmit,
   loading,
   error,
-  selectModal,
-  setSelectModal,
 }) {
+  const [onlySubmitDisabled, setOnlySubmitDisabled] = useState(true);
+  const [submitScheduleDisabled, setSubmitScheduleDisabled] = useState(true);
+
+  useEffect(() => {
+    const {
+      firstName,
+      lastName,
+      email,
+      companyName,
+      takenBy,
+      dm,
+      temperature,
+      organizer,
+    } = formData;
+
+    const isOnlySubmitDisabled =
+      !firstName ||
+      !lastName ||
+      !email ||
+      !companyName ||
+      !takenBy ||
+      !dm ||
+      !temperature;
+    const isSubmitScheduleDisabled = isOnlySubmitDisabled || organizer === "";
+
+    setOnlySubmitDisabled(isOnlySubmitDisabled);
+    setSubmitScheduleDisabled(isSubmitScheduleDisabled);
+  }, [formData]);
   return (
     <form onSubmit={handleSubmit} className="lead-form">
       <h2>Lead Data</h2>
@@ -199,7 +226,7 @@ export default function LeadForm({
             type="submit"
             name="schedule"
             value="false"
-            disabled={loading}
+            disabled={loading || onlySubmitDisabled}
           >
             <UserIcon className="user-icon" /> Only Submit
           </button>
@@ -208,7 +235,7 @@ export default function LeadForm({
             type="submit"
             name="schedule"
             value="true"
-            disabled={loading}
+            disabled={loading || submitScheduleDisabled}
           >
             <CalendarIcon className="calendar-icon" /> Submit & Schedule
           </button>

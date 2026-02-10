@@ -178,6 +178,8 @@ export const SlotSelect = ({
       dataTakenBy: formData.takenBy,
       date: selectedDate.date,
       time: selectedTimeArg,
+      userTime: selectedTime,
+      userTimezone: selectedTimezone.name,
     };
 
     try {
@@ -357,19 +359,14 @@ export const SlotSelect = ({
           <span className="value">{formData.companyName}</span>
         </p>
         <p className="confirmation-value">
-          <span>Selected slot:</span>
+          <span>Selected slot :</span>
           <span className="value">
-            {selectedDate.date ? selectedDate.date : ""} -{" "}
-            {selectedTime ? selectedTime : ""}
+            {selectedDate.date ? selectedDate.date : ""}{" "}
+            {selectedTime ? ` - ${selectedTime} ` : ""}{" "}
+            {selectedTime && selectedTimezone.name}
           </span>
         </p>
-        <p className="confirmation-value">
-          <span>Selected slot arg:</span>
-          <span className="value">
-            {selectedDate.date ? selectedDate.date : ""} -{" "}
-            {selectedTimeArg ? selectedTimeArg : ""}
-          </span>
-        </p>
+
         <div className="slot-select-button-container">
           {loading ? (
             <div className="loader-container-slot-select">
@@ -378,7 +375,7 @@ export const SlotSelect = ({
           ) : (
             <button
               className="solid"
-              disabled={loading}
+              disabled={loading || !selectedDate || !selectedTime}
               onClick={handleSubmitSlot}
             >
               <CalendarIcon className="calendar-icon" /> Schedule Appointment

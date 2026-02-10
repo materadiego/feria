@@ -1,0 +1,71 @@
+.info-modal {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.95);
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.info-modal-overlay {
+  width: 80%;
+  height: 100lvh;
+  padding: 5vw 0;
+  overflow: auto;
+}
+
+.info-modal-container {
+  width: 100%;
+  background-color: #000000;
+  border: 2px solid #d2f176;
+  border-radius: 10px;
+  top: 5vw;
+  padding: 4vw 5vw;
+  position: relative;
+}
+
+.info-modal-close-icon {
+  stroke: #828282;
+  width: 5vw;
+  height: 5vw;
+  position: absolute;
+  top: 3vw;
+  right: 3vw;
+  z-index: 4;
+}
+
+.info-section-container {
+  margin-bottom: 5vw;
+}
+
+.info-section-container p {
+  margin-bottom: 3vw;
+  font-size: 1.5vw;
+  font-weight: 300;
+  color: #ffffff;
+}
+.info-section-container p a,
+.info-span-green {
+  color: #adadad;
+}
+
+.info-span-temperature {
+  width: 2vw;
+  height: 2vw;
+  display: inline-block;
+  margin-right: 1vw;
+}
+
+.info-span-temperature.red {
+  background-color: #ff4d4d;
+}
+.info-span-temperature.orange {
+  background-color: #ff9900;
+}
+.info-span-temperature.blue {
+  background-color: #4da6ff;
+}

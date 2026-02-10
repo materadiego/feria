@@ -32,13 +32,19 @@ h3 {
   font-family: "Inter", sans-serif;
 }
 
+h6 {
+  font-size: 1.8vw;
+  font-weight: 500;
+  color: #d2f176;
+  margin-bottom: 0.5vw;
+}
+
 button {
   font-family: "Inter", sans-serif;
   font-weight: 500;
   padding: 0vw 2vw;
   border-radius: 5px;
   height: 6vw;
-  border: 2px solid #d2f176;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -50,6 +56,8 @@ button.solid {
   border: 2px solid #d2f176;
   font-size: 1.5vw;
   font-weight: 600;
+  border: 2px solid #d2f176;
+
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -68,8 +76,8 @@ button.transparent-green {
 }
 
 /* Disabled */
-.lead-form button[type="submit"]:disabled {
-  opacity: 0.6;
+button:disabled {
+  opacity: 0.4;
   box-shadow: none;
 }
 

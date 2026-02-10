@@ -4,6 +4,8 @@ import "./FormContainer.css";
 import { SlotSelect } from "./SlotSelect";
 import logo from "../worldteams-logo-light.svg";
 import { FinishModal } from "./FinishModal";
+import { InfoModal } from "./InfoModal";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 const N8N_WEBHOOK_URL = "https://n8n.srv998702.hstgr.cloud/webhook/form-ibs-26";
 
 export const FormContainer = () => {
@@ -11,7 +13,7 @@ export const FormContainer = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [step, setStep] = useState(1);
-  const [selectModal, setSelectModal] = useState(true);
+  const [infoModal, setInfoModal] = useState(false);
   const [slotsData, setSlotsData] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
@@ -30,6 +32,23 @@ export const FormContainer = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [step]);
+  useEffect(() => {
+    if (infoModal) {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+  }, [infoModal]);
 
   const resetForm = () => {
     setFormData({
@@ -161,8 +180,6 @@ export const FormContainer = () => {
           loading={loading}
           error={error}
           success={success}
-          selectModal={selectModal}
-          setSelectModal={setSelectModal}
         />
       );
     } else if (step === 2) {
@@ -191,7 +208,16 @@ export const FormContainer = () => {
     <div className="form-container">
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo" />
+        <div
+          className="info-button transparent-gray"
+          onClick={() => {
+            setInfoModal(true);
+          }}
+        >
+          <PlusCircleIcon className="info-button-icon" /> Info
+        </div>
       </div>
+      {infoModal && <InfoModal setInfoModal={setInfoModal} />}
       <div className="form-subcontainer">{renderView()}</div>
     </div>
   );
