@@ -16,6 +16,12 @@
   height: 100lvh;
   padding: 5vw 0;
   overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.info-modal-overlay::-webkit-scrollbar {
+  display: none;
 }
 
 .info-modal-container {
@@ -26,6 +32,7 @@
   top: 5vw;
   padding: 4vw 5vw;
   position: relative;
+  margin-bottom: 10vw;
 }
 
 .info-modal-close-icon {
@@ -68,4 +75,25 @@
 }
 .info-span-temperature.blue {
   background-color: #4da6ff;
+}
+
+@media (max-width: 480px) {
+  .info-modal-close-icon {
+    width: 9vw;
+    height: 9vw;
+    top: 2vw;
+    right: 2vw;
+  }
+
+  .info-modal-container {
+    top: 10vw;
+    padding: 8vw 5vw;
+    position: relative;
+    margin-bottom: 10vw;
+  }
+
+  .info-section-container p {
+    margin-bottom: 3vw;
+    font-size: 2.8vw;
+  }
 }

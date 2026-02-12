@@ -5,11 +5,11 @@ export const InfoModal = ({ setInfoModal }) => {
   return (
     <div className="info-modal">
       <div className="info-modal-overlay">
+        <XCircleIcon
+          className="info-modal-close-icon"
+          onClick={() => setInfoModal(false)}
+        />
         <div className="info-modal-container">
-          <XCircleIcon
-            className="info-modal-close-icon"
-            onClick={() => setInfoModal(false)}
-          />
           <h2>App Information</h2>
           <div className="info-section-container">
             <h3>Lead Form</h3>
