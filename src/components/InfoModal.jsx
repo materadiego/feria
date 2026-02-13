@@ -129,6 +129,21 @@ export const InfoModal = ({ setInfoModal }) => {
                 Eastern, US/Canada (UTC-5)
               </span>
               , correspondiente a Orlando.
+              <br />
+              <br />
+              Una vez agendada la reunion, la data de la misma será actualizada
+              en el registro de lead del{" "}
+              <a
+                href="https://docs.google.com/spreadsheets/d/16h5HDvdivo-RDi4Vg3_gbVOHYLEB4ZRPoU5f_ESDMT0/edit?gid=0#gid=0"
+                rel="noreferrer"
+                target="_blank"
+                className=""
+              >
+                documento interno de google sheets
+              </a>{" "}
+              creado en el paso anterior y luego se actualiza automáticamente en
+              hubspot. Luego se esperará determiando tiempo (un par de horas), y
+              saldrá automáticamente un email de bienvenida para el nuevo lead.
             </p>
           </div>
           <button
