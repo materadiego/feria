@@ -30,8 +30,26 @@ export const InfoModal = ({ setInfoModal }) => {
             <h6>Carga de imagen</h6>
             <p>
               Se puede cargar una imagen por cada lead (opcional). Esta imagen
-              se almacenará en Google Drive y, dentro del sheet, figurará el
-              enlace al archivo.
+              se almacenará en una{" "}
+              <a
+                href="https://docs.google.com/spreadsheets/d/16h5HDvdivo-RDi4Vg3_gbVOHYLEB4ZRPoU5f_ESDMT0/edit?gid=0#gid=0"
+                rel="noreferrer"
+                target="_blank"
+                className=""
+              >
+                carpeta de Google Drive{" "}
+              </a>{" "}
+              con el nombre y apellido del lead como nombre de archivo.Dentro
+              del
+              <a
+                href="https://docs.google.com/spreadsheets/d/16h5HDvdivo-RDi4Vg3_gbVOHYLEB4ZRPoU5f_ESDMT0/edit?gid=0#gid=0"
+                rel="noreferrer"
+                target="_blank"
+                className=""
+              >
+                sheet
+              </a>
+              , figurará el enlace al archivo.
             </p>
             <h6>Campo DM</h6>
             <p>

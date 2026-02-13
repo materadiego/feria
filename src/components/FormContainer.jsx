@@ -12,7 +12,7 @@ export const FormContainer = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [infoModal, setInfoModal] = useState(false);
   const [slotsData, setSlotsData] = useState([]);
   const [formData, setFormData] = useState({

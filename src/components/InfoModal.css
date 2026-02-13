@@ -12,9 +12,8 @@
 }
 
 .info-modal-overlay {
-  width: 80%;
+  width: 100%;
   height: 100lvh;
-  padding: 5vw 0;
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -25,14 +24,14 @@
 }
 
 .info-modal-container {
-  width: 100%;
-  background-color: #000000;
-  border: 2px solid #d2f176;
+  width: 80%;
+  background-color: #111111;
   border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
   top: 5vw;
   padding: 4vw 5vw;
   position: relative;
-  margin-bottom: 10vw;
+  margin: 0 auto 5vw;
 }
 
 .info-modal-close-icon {
@@ -82,11 +81,11 @@
     width: 9vw;
     height: 9vw;
     top: 2vw;
-    right: 2vw;
+    right: 1vw;
   }
 
   .info-modal-container {
-    top: 10vw;
+    top: 5vw;
     padding: 8vw 5vw;
     position: relative;
     margin-bottom: 10vw;
