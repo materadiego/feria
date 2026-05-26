@@ -49,6 +49,37 @@
   -moz-appearance: textfield;
 }
 
+.comments-container {
+  position: relative;
+}
+
+.mic-button {
+  color: #aaaaaa;
+  position: absolute;
+  right: 0;
+  top: -15%;
+  background: transparent;
+  transform: scale(0.6);
+  border: 1px solid #aaaaaa;
+}
+
+.mic-button-active {
+  color: #ffffff;
+  border: 1px solid red;
+}
+
+.stop-icon {
+  stroke: #ef4444;
+  width: 3vw;
+  height: 3vw;
+}
+
+.mic-icon {
+  stroke: #aaaaaa;
+  width: 3vw;
+  height: 3vw;
+}
+
 /* Textarea */
 .lead-form textarea {
   min-height: 12vw;
@@ -346,5 +377,37 @@ input[type="radio"] {
   }
 
   .lead-form-button-container {
+  }
+
+  .comments-container {
+    margin-top: 10vw;
+  }
+
+  .mic-button {
+    top: -13%;
+  }
+
+  .stop-icon {
+    width: 8vw;
+    height: 8vw;
+  }
+
+  .mic-icon {
+    width: 8vw;
+    height: 8vw;
+  }
+
+  .lead-form textarea {
+    min-height: 30vw;
+    resize: none;
+  }
+
+  .offline-notice {
+    border: 1px solid #aaaaaa;
+    font-size: 2vw;
+    font-weight: 300;
+    color: #aaaaaa;
+    padding: 2vw;
+    border-radius: 1vw;
   }
 }

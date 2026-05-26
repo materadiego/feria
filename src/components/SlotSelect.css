@@ -230,10 +230,6 @@ ul {
     padding-bottom: 10vw;
   }
 
-  .leave {
-    position: relative;
-  }
-
   .arrow-icon {
     width: 6vw;
     height: 6vw;
@@ -310,5 +306,30 @@ ul {
   .slot-select-button-container {
     margin: 10vw auto 0;
     justify-content: center;
+  }
+
+  .slot-select-change-calendar {
+    position: relative;
+    margin: 0;
+  }
+
+  .slot-select-calendar-icon {
+    stroke: #aaaaaa;
+    width: 5vw;
+    height: 5vw;
+    margin-right: 2vw;
+    stroke: #d2f176;
+    transition: 0.3s;
+    will-change: transform stroke;
+  }
+
+  .active-organizer-label {
+    color: #aaaaaa;
+    font-size: 3vw;
+    margin-bottom: 3vw;
+  }
+
+  .active-organizer-name {
+    color: #d2f176;
   }
 }

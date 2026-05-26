@@ -1,7 +1,22 @@
 import "./LeadForm.css";
 import loader from "../loader.svg";
-import { CalendarIcon, PhotoIcon, UserIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import {
+  CalendarIcon,
+  PhotoIcon,
+  UserIcon,
+  MicrophoneIcon,
+  StopCircleIcon,
+} from "@heroicons/react/24/outline";
+import { useEffect, useRef, useState } from "react";
+
+// Web Speech API está disponible en Chrome y Edge (no Firefox, no Safari)
+const isSpeechSupported =
+  typeof window !== "undefined" &&
+  ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+
+const SpeechRecognitionAPI = isSpeechSupported
+  ? window.SpeechRecognition || window.webkitSpeechRecognition
+  : null;
 
 export default function LeadForm({
   formData,
@@ -13,6 +28,9 @@ export default function LeadForm({
 }) {
   const [onlySubmitDisabled, setOnlySubmitDisabled] = useState(true);
   const [submitScheduleDisabled, setSubmitScheduleDisabled] = useState(true);
+  const [isListening, setIsListening] = useState(false);
+  const [speechError, setSpeechError] = useState(null);
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
     const {
@@ -35,13 +53,85 @@ export default function LeadForm({
       !dm ||
       !temperature;
 
-    // Submit & Schedule requiere conexión + organizer
     const isSubmitScheduleDisabled =
       isOnlySubmitDisabled || organizer === "" || !isOnline;
 
     setOnlySubmitDisabled(isOnlySubmitDisabled);
     setSubmitScheduleDisabled(isSubmitScheduleDisabled);
   }, [formData, isOnline]);
+
+  // Limpieza al desmontar
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
+
+  /* ---------- SPEECH ---------- */
+
+  const startListening = () => {
+    setSpeechError(null);
+
+    const recognition = new SpeechRecognitionAPI();
+    recognition.lang = "es-ES"; // cambiá a "en-US" si el evento es en inglés
+    recognition.continuous = true; // sigue escuchando sin cortar
+    recognition.interimResults = true; // muestra texto mientras habla
+
+    let finalTranscript = formData.comments;
+
+    recognition.onstart = () => setIsListening(true);
+
+    recognition.onresult = (event) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += (finalTranscript ? " " : "") + transcript;
+        } else {
+          interim = transcript;
+        }
+      }
+      // Synthetic event para reutilizar handleChange del padre
+      handleChange({
+        target: {
+          name: "comments",
+          value: finalTranscript + (interim ? " " + interim : ""),
+        },
+      });
+    };
+
+    recognition.onerror = (event) => {
+      if (event.error === "not-allowed") {
+        setSpeechError(
+          "Microphone access denied. Please allow it in your browser settings.",
+        );
+      } else if (event.error !== "aborted") {
+        setSpeechError(`Speech error: ${event.error}`);
+      }
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      // Cuando termina, aseguramos que comments quede con el transcript final limpio
+      handleChange({
+        target: { name: "comments", value: finalTranscript },
+      });
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  };
+
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+  };
+
+  /* ---------- RENDER ---------- */
 
   return (
     <form onSubmit={handleSubmit} className="lead-form">
@@ -104,15 +194,41 @@ export default function LeadForm({
         </div>
       </div>
 
-      <div>
-        <label>
-          Comments <span className="required-field">*</span>
-        </label>
+      {/* Comments + voice */}
+      <div className="comments-container">
+        <div className="comments-label-row">
+          <label>
+            Comments <span className="required-field">*</span>
+          </label>
+          {isSpeechSupported && (
+            <button
+              type="button"
+              className={`mic-button ${isListening ? "mic-button-active" : ""}`}
+              onClick={isListening ? stopListening : startListening}
+              disabled={!isOnline}
+              title={isListening ? "Stop recording" : "Voice to text"}
+            >
+              {isListening ? (
+                <>
+                  <StopCircleIcon className="stop-icon" />
+                </>
+              ) : (
+                <>
+                  <MicrophoneIcon className="mic-icon" />
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
         <textarea
           name="comments"
           value={formData.comments}
           onChange={handleChange}
+          className={isListening ? "textarea-listening" : ""}
         />
+
+        {speechError && <p className="speech-error">{speechError}</p>}
       </div>
 
       <div className="file-upload">
@@ -208,7 +324,10 @@ export default function LeadForm({
             </span>
           </label>
           {["Estefania Lapenna", "Martina Zajdman"].map((name) => (
-            <label key={name} className="radio-label">
+            <label
+              key={name}
+              className={`radio-label ${!isOnline ? "radio-label-disabled" : ""}`}
+            >
               <input
                 type="radio"
                 name="organizer"

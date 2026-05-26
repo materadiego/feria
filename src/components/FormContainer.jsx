@@ -357,7 +357,6 @@ export const FormContainer = () => {
               : "Offline"}
             <span className="status-dot" />
           </div>
-
           <div className="reset-button orange" onClick={resetForm}>
             <ArrowPathIcon className="reset-button-icon" /> Reset Form
           </div>

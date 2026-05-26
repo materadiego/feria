@@ -1,6 +1,6 @@
 export const AppInformation = () => {
   return (
-    <>
+    <div className="app-information-scroll">
       <div className="info-section-container">
         <h3>Lead Form</h3>
         <h6>Destino de los datos</h6>
@@ -236,6 +236,6 @@ export const AppInformation = () => {
           activo.
         </p>
       </div>
-    </>
+    </div>
   );
 };
