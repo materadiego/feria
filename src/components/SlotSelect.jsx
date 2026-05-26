@@ -3,7 +3,6 @@ import { useState } from "react";
 import loader from "../loader.svg";
 import {
   ArrowPathRoundedSquareIcon,
-  ArrowUturnLeftIcon,
   BarsArrowDownIcon,
   CalendarIcon,
 } from "@heroicons/react/24/outline";
