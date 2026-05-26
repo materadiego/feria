@@ -6,17 +6,18 @@ import {
   UserIcon,
   MicrophoneIcon,
   StopCircleIcon,
+  ArrowPathRoundedSquareIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 
-// Web Speech API está disponible en Chrome y Edge (no Firefox, no Safari)
-const isSpeechSupported =
-  typeof window !== "undefined" &&
-  ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+const WHISPER_WEBHOOK_URL =
+  "https://n8n.srv998702.hstgr.cloud/webhook/f7ba1d3f-3d63-4415-8a5c-80ada7d137f3";
 
-const SpeechRecognitionAPI = isSpeechSupported
-  ? window.SpeechRecognition || window.webkitSpeechRecognition
-  : null;
+const MAX_RECORDING_SECONDS = 60;
+
+// MediaRecorder sí funciona en Safari/iOS 14.3+
+const isRecordingSupported =
+  typeof window !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
 
 export default function LeadForm({
   formData,
@@ -28,9 +29,17 @@ export default function LeadForm({
 }) {
   const [onlySubmitDisabled, setOnlySubmitDisabled] = useState(true);
   const [submitScheduleDisabled, setSubmitScheduleDisabled] = useState(true);
-  const [isListening, setIsListening] = useState(false);
-  const [speechError, setSpeechError] = useState(null);
-  const recognitionRef = useRef(null);
+
+  // Voice state
+  const [isRecording, setIsRecording] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [voiceError, setVoiceError] = useState(null);
+  const [secondsLeft, setSecondsLeft] = useState(MAX_RECORDING_SECONDS);
+
+  const mediaRecorderRef = useRef(null);
+  const chunksRef = useRef([]);
+  const timerRef = useRef(null);
+  const countdownRef = useRef(null);
 
   useEffect(() => {
     const {
@@ -63,71 +72,123 @@ export default function LeadForm({
   // Limpieza al desmontar
   useEffect(() => {
     return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
+      clearTimeout(timerRef.current);
+      clearInterval(countdownRef.current);
+      if (mediaRecorderRef.current?.state === "recording") {
+        mediaRecorderRef.current.stop();
       }
     };
   }, []);
 
-  /* ---------- SPEECH ---------- */
+  /* ---------- VOICE ---------- */
 
-  const startListening = () => {
-    setSpeechError(null);
+  const startRecording = async () => {
+    setVoiceError(null);
+    chunksRef.current = [];
 
-    const recognition = new SpeechRecognitionAPI();
-    recognition.lang = "es-ES"; // cambiá a "en-US" si el evento es en inglés
-    recognition.continuous = true; // sigue escuchando sin cortar
-    recognition.interimResults = true; // muestra texto mientras habla
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-    let finalTranscript = formData.comments;
+      // Safari graba en audio/mp4, Chrome en audio/webm — detectamos el disponible
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm")
+        ? "audio/webm"
+        : "audio/mp4";
 
-    recognition.onstart = () => setIsListening(true);
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      mediaRecorderRef.current = mediaRecorder;
 
-    recognition.onresult = (event) => {
-      let interim = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += (finalTranscript ? " " : "") + transcript;
-        } else {
-          interim = transcript;
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunksRef.current.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        // Detener tracks del micrófono
+        stream.getTracks().forEach((t) => t.stop());
+        clearTimeout(timerRef.current);
+        clearInterval(countdownRef.current);
+        setIsRecording(false);
+        setSecondsLeft(MAX_RECORDING_SECONDS);
+
+        await sendAudioToWebhook(mimeType);
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+
+      // Countdown visual
+      setSecondsLeft(MAX_RECORDING_SECONDS);
+      countdownRef.current = setInterval(() => {
+        setSecondsLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdownRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Auto-stop a los 60s
+      timerRef.current = setTimeout(() => {
+        if (mediaRecorderRef.current?.state === "recording") {
+          mediaRecorderRef.current.stop();
         }
+      }, MAX_RECORDING_SECONDS * 1000);
+    } catch (err) {
+      if (err.name === "NotAllowedError") {
+        setVoiceError(
+          "Microphone access denied. Please allow it in your browser settings.",
+        );
+      } else {
+        setVoiceError(`Could not access microphone: ${err.message}`);
       }
-      // Synthetic event para reutilizar handleChange del padre
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current?.state === "recording") {
+      mediaRecorderRef.current.stop();
+    }
+  };
+
+  const sendAudioToWebhook = async (mimeType) => {
+    setIsTranscribing(true);
+    setVoiceError(null);
+
+    try {
+      const blob = new Blob(chunksRef.current, { type: mimeType });
+
+      // Convertir a base64
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+
+      const response = await fetch(WHISPER_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ audio: base64, mimeType }),
+      });
+
+      if (!response.ok) throw new Error("Transcription failed");
+
+      const data = await response.json();
+      const transcript = data.transcript || "";
+
+      // Append al texto existente en comments
+      const current = formData.comments;
       handleChange({
         target: {
           name: "comments",
-          value: finalTranscript + (interim ? " " + interim : ""),
+          value: current ? `${current} ${transcript}` : transcript,
         },
       });
-    };
-
-    recognition.onerror = (event) => {
-      if (event.error === "not-allowed") {
-        setSpeechError(
-          "Microphone access denied. Please allow it in your browser settings.",
-        );
-      } else if (event.error !== "aborted") {
-        setSpeechError(`Speech error: ${event.error}`);
-      }
-      setIsListening(false);
-    };
-
-    recognition.onend = () => {
-      // Cuando termina, aseguramos que comments quede con el transcript final limpio
-      handleChange({
-        target: { name: "comments", value: finalTranscript },
-      });
-      setIsListening(false);
-    };
-
-    recognitionRef.current = recognition;
-    recognition.start();
-  };
-
-  const stopListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
+    } catch (err) {
+      console.error(err);
+      setVoiceError("Could not transcribe audio. Please try again.");
+    } finally {
+      setIsTranscribing(false);
     }
   };
 
@@ -197,27 +258,35 @@ export default function LeadForm({
       {/* Comments + voice */}
       <div className="comments-container">
         <div className="comments-label-row">
-          <label>
-            Comments <span className="required-field">*</span>
-          </label>
-          {isSpeechSupported && (
-            <button
-              type="button"
-              className={`mic-button ${isListening ? "mic-button-active" : ""}`}
-              onClick={isListening ? stopListening : startListening}
-              disabled={!isOnline}
-              title={isListening ? "Stop recording" : "Voice to text"}
-            >
-              {isListening ? (
-                <>
+          <label>Comments</label>
+
+          {isRecordingSupported && (
+            <div className="mic-controls">
+              <button
+                type="button"
+                className={`mic-button ${isRecording ? "mic-button-active" : ""}`}
+                onClick={isRecording ? stopRecording : startRecording}
+                disabled={!isOnline || isTranscribing}
+                title={
+                  !isOnline
+                    ? "Not available offline"
+                    : isRecording
+                      ? "Stop recording"
+                      : "Voice note"
+                }
+              >
+                {isRecording ? (
                   <StopCircleIcon className="stop-icon" />
-                </>
-              ) : (
-                <>
+                ) : isTranscribing ? (
+                  <ArrowPathRoundedSquareIcon
+                    className={`slot-select-calendar-icon  spin`}
+                  />
+                ) : (
                   <MicrophoneIcon className="mic-icon" />
-                </>
-              )}
-            </button>
+                )}
+                {isRecording && secondsLeft}
+              </button>
+            </div>
           )}
         </div>
 
@@ -225,10 +294,17 @@ export default function LeadForm({
           name="comments"
           value={formData.comments}
           onChange={handleChange}
-          className={isListening ? "textarea-listening" : ""}
+          className={isRecording ? "textarea-listening" : ""}
         />
-
-        {speechError && <p className="speech-error">{speechError}</p>}
+        {isRecording && (
+          <p className="listening-indicator">
+            <span className="listening-dot" /> Recording...
+          </p>
+        )}
+        {isTranscribing && (
+          <p className="listening-indicator transcribing">Transcribing...</p>
+        )}
+        {voiceError && <p className="speech-error">{voiceError}</p>}
       </div>
 
       <div className="file-upload">
@@ -256,7 +332,7 @@ export default function LeadForm({
         {formData.files?.length > 0 && (
           <span className="file-name">
             {Array.from(formData.files)
-              .map((file) => file.name)
+              .map((f) => f.name)
               .join(", ")}
           </span>
         )}
