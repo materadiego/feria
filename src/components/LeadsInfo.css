@@ -121,7 +121,7 @@
 
 .lead-card {
   width: 96%;
-  height: 14vw;
+  height: 15vw;
   flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
@@ -168,7 +168,7 @@
 }
 
 .lead-name {
-  font-size: 1.9vw;
+  font-size: 1.6vw;
 }
 
 .lead-email {
@@ -183,21 +183,19 @@
 }
 
 .lead-card-user-icon {
-  width: 3vw;
-  height: 3vw;
-  margin-right: 0.5vw;
+  width: 2vw;
+  height: 2vw;
+  margin-right: 1vw;
 }
 .lead-card-email-icon {
   width: 2vw;
   height: 2vw;
   stroke: #aaaaaa;
-  margin-left: 0.5vw;
   margin-right: 1vw;
 }
 .lead-card-company-icon {
   width: 2vw;
   height: 2vw;
-  margin-left: 0.5vw;
   margin-right: 1vw;
   stroke: #aaaaaa;
 }
