@@ -29,10 +29,49 @@
 .logo-container {
   width: 100%;
   background-color: #000;
-  padding: 1vw 5%;
+  padding: 1.5vw 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.status-indicator {
+  display: flex;
+  color: #cccccc;
+  align-items: center;
+  font-size: 1.3vw;
+  font-weight: 300;
+}
+
+.status-indicator.online {
+  color: #d2f176;
+}
+
+.status-indicator.offline {
+  color: #cccccc;
+}
+
+.status-dot {
+  width: 1.5vw;
+  height: 1.5vw;
+  margin-left: 0.8vw;
+  background-color: #d2f176;
+  border-radius: 50%;
+  margin-right: 0.5vw;
+}
+
+.status-indicator.online .status-dot {
+  background-color: #d2f176;
+  border: 2px solid #d2f176;
+}
+
+.status-indicator.offline .status-dot {
+  background-color: transparent;
+  border: 2px solid #aaaaaa;
+}
+.header-buttons {
+  display: flex;
+  gap: 1.5vw;
 }
 
 .info-button {
@@ -53,8 +92,30 @@
 .info-button-icon {
   width: 2vw;
   height: 2vw;
-  margin-right: 0.5vw;
+  margin-right: 0.7vw;
   stroke: #828282;
+}
+
+.reset-button {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  padding: 0vw 2vw;
+  border-radius: 5px;
+  height: 4vw;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: #d98730;
+  border: 1px solid #d98730;
+  font-size: 1.5vw;
+}
+
+.reset-button-icon {
+  width: 1.8vw;
+  height: 1.8vw;
+  margin-right: 0.7vw;
+  stroke: #d98730;
 }
 
 .logo {

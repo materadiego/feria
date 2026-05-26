@@ -259,6 +259,15 @@ input[type="radio"] {
   color: #fa9747;
 }
 
+.offline-notice {
+  border: 1px solid #aaaaaa;
+  font-size: 1.5vw;
+  font-weight: 300;
+  color: #aaaaaa;
+  padding: 2vw;
+  border-radius: 1vw;
+}
+
 /* ===============================
    MOBILE (intacto)
    =============================== */

@@ -64,7 +64,7 @@ button.solid {
 button.transparent-gray {
   background-color: transparent;
   color: #828282;
-  border: 2px solid #adadad;
+  border: 2px solid #828282;
   font-size: 1.5vw;
 }
 
@@ -75,10 +75,26 @@ button.transparent-green {
   font-size: 1.5vw;
 }
 
+button.orange {
+  background-color: transparent;
+  color: #c04107;
+  border: 2px solid #c04107;
+  font-size: 1.5vw;
+}
+
 /* Disabled */
 button:disabled {
   opacity: 0.4;
   box-shadow: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
 }
 
 @media (max-width: 480px) {
