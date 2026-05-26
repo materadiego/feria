@@ -3,17 +3,41 @@
   padding-bottom: 0vw;
 }
 
-.leave {
+.slot-select-change-calendar {
   position: absolute;
   top: 0;
   right: 0;
+  color: #e5e7eb;
 }
 
-.arrow-icon {
+.slot-select-calendar-icon {
+  stroke: #aaaaaa;
   width: 2vw;
   height: 2vw;
   margin-right: 1vw;
-  stroke: #e5e7eb;
+  stroke: #d2f176;
+  transition: 0.3s;
+  will-change: transform stroke;
+}
+
+.slot-select-calendar-icon.spin {
+  animation-name: spin;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  stroke: #828282;
+}
+
+.arrow-icon {
+}
+
+.active-organizer-label {
+  color: #aaaaaa;
+  font-size: 1.5vw;
+}
+
+.active-organizer-name {
+  color: #d2f176;
 }
 
 .day-headers {
@@ -64,10 +88,10 @@
 }
 
 .dropdown-options p span {
-  font-size: 1vw;
+  font-size: 1.2vw;
   position: absolute;
   top: 0.5vw;
-  right: 0.5vw;
+  right: 0.8vw;
   font-weight: 300;
   color: #d2f176;
 }

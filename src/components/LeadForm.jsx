@@ -9,6 +9,7 @@ export default function LeadForm({
   handleSubmit,
   loading,
   error,
+  isOnline,
 }) {
   const [onlySubmitDisabled, setOnlySubmitDisabled] = useState(true);
   const [submitScheduleDisabled, setSubmitScheduleDisabled] = useState(true);
@@ -33,11 +34,15 @@ export default function LeadForm({
       !takenBy ||
       !dm ||
       !temperature;
-    const isSubmitScheduleDisabled = isOnlySubmitDisabled || organizer === "";
+
+    // Submit & Schedule requiere conexión + organizer
+    const isSubmitScheduleDisabled =
+      isOnlySubmitDisabled || organizer === "" || !isOnline;
 
     setOnlySubmitDisabled(isOnlySubmitDisabled);
     setSubmitScheduleDisabled(isSubmitScheduleDisabled);
-  }, [formData]);
+  }, [formData, isOnline]);
+
   return (
     <form onSubmit={handleSubmit} className="lead-form">
       <h2>Lead Data</h2>
@@ -98,14 +103,18 @@ export default function LeadForm({
           />
         </div>
       </div>
+
       <div>
-        <label>Comments</label>
+        <label>
+          Comments <span className="required-field">*</span>
+        </label>
         <textarea
           name="comments"
           value={formData.comments}
           onChange={handleChange}
         />
       </div>
+
       <div className="file-upload">
         <label
           htmlFor="files"
@@ -117,11 +126,9 @@ export default function LeadForm({
             justifyContent: "center",
           }}
         >
-          {" "}
           <PhotoIcon className="photo-icon" />
           {formData.files?.length ? "Image selected" : "Upload image"}
         </label>
-
         <input
           id="files"
           type="file"
@@ -130,7 +137,6 @@ export default function LeadForm({
           onChange={handleChange}
           hidden
         />
-
         {formData.files?.length > 0 && (
           <span className="file-name">
             {Array.from(formData.files)
@@ -139,6 +145,7 @@ export default function LeadForm({
           </span>
         )}
       </div>
+
       <div className="row">
         <div>
           <label>
@@ -200,16 +207,17 @@ export default function LeadForm({
               *(Required if a meet will be scheduled)
             </span>
           </label>
-          {["Estefania Lapenna", "Martina Zajdman"].map((temp) => (
-            <label key={temp} className="radio-label">
+          {["Estefania Lapenna", "Martina Zajdman"].map((name) => (
+            <label key={name} className="radio-label">
               <input
                 type="radio"
                 name="organizer"
-                value={temp}
-                checked={formData.organizer === temp}
+                value={name}
+                checked={formData.organizer === name}
                 onChange={handleChange}
+                disabled={!isOnline}
               />
-              {temp}
+              {name}
             </label>
           ))}
         </div>
@@ -228,7 +236,8 @@ export default function LeadForm({
             value="false"
             disabled={loading || onlySubmitDisabled}
           >
-            <UserIcon className="user-icon" /> Only Submit
+            <UserIcon className="user-icon" />
+            {isOnline ? "Only Submit" : "Save Offline"}
           </button>
           <button
             className="solid"
@@ -236,11 +245,20 @@ export default function LeadForm({
             name="schedule"
             value="true"
             disabled={loading || submitScheduleDisabled}
+            title={!isOnline ? "Not available offline" : ""}
           >
             <CalendarIcon className="calendar-icon" /> Submit & Schedule
           </button>
         </div>
       )}
+
+      {!isOnline && (
+        <p className="offline-notice">
+          You are offline. "Submit & Schedule" is unavailable. Leads submitted
+          now will be saved and sent automatically when connection is restored.
+        </p>
+      )}
+
       {error && <p className="error">{error}</p>}
     </form>
   );

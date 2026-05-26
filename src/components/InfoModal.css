@@ -34,6 +34,30 @@
   margin: 0 auto 5vw;
 }
 
+.info-modal-nav {
+  display: flex;
+  margin-bottom: 5vw;
+  align-items: center;
+  gap: 2vw;
+}
+
+.info-modal-nav p {
+  padding: 0.6vw 2vw;
+  border-radius: 6vw;
+  transition: 0.3s;
+}
+
+.info-modal-nav p.selected {
+  background-color: #d2f176;
+  border: 1px solid #d2f176;
+  color: #111111;
+}
+
+.info-modal-nav p.not-selected {
+  color: #aaaaaa;
+  border: 1px solid #aaaaaa;
+}
+
 .info-modal-close-icon {
   stroke: #828282;
   width: 5vw;

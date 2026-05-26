@@ -2,6 +2,7 @@ import "./SlotSelect.css";
 import { useState } from "react";
 import loader from "../loader.svg";
 import {
+  ArrowPathRoundedSquareIcon,
   ArrowUturnLeftIcon,
   BarsArrowDownIcon,
   CalendarIcon,
@@ -86,15 +87,22 @@ const TIMEZONES = [
   },
 ];
 
+const ORGANIZER_PAIR = ["Estefania Lapenna", "Martina Zajdman"];
+
+const getOtherOrganizer = (current) =>
+  ORGANIZER_PAIR.find((o) => o !== current) || "";
+
 const N8N_WEBHOOK_URL_SCHEDULE =
   "https://n8n.srv998702.hstgr.cloud/webhook/ibs-schedule-appointment";
 
+const N8N_WEBHOOK_URL_OTHER_CALENDAR =
+  "https://n8n.srv998702.hstgr.cloud/webhook/9593d9bf-7403-4295-88ec-958c6afb2170";
+
 export const SlotSelect = ({
-  slotsData = [],
+  slotsData: initialSlotsData = [],
   formData,
   loading,
   error,
-  success,
   setError,
   setLoading,
   setSuccess,
@@ -102,19 +110,25 @@ export const SlotSelect = ({
   setFormData,
   resetForm,
 }) => {
+  const [slotsData, setSlotsData] = useState(initialSlotsData);
+  const [activeOrganizer, setActiveOrganizer] = useState(formData.organizer);
+
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedTimeArg, setSelectedTimeArg] = useState("");
-  const [optionsOpened, setOptionsOpened] = useState(false);
   const [unavailableTimes, setUnavailableTimes] = useState([]);
   const [openTimezoneOptions, setOpenTimezoneOptions] = useState(false);
+  const [loadingOtherCalendar, setLoadingOtherCalendar] = useState(false);
   const [selectedTimezone, setSelectedTimezone] = useState({
     region: "USA / Canada",
-    name: "Eastern, US/Canada (UTC-5)",
-    utc: "UTC-5",
-    utcOffset: -5,
-    diffWithArgentina: -2,
+    name: "Pacific, US/Canada (UTC-8)",
+    utc: "UTC-8",
+    utcOffset: -8,
+    diffWithArgentina: -5,
   });
+
+  const otherOrganizer = getOtherOrganizer(activeOrganizer);
+
   /* ---------- HELPERS ---------- */
 
   const isDateSelected = (slot) => selectedDate?.date === slot.date;
@@ -122,7 +136,6 @@ export const SlotSelect = ({
   const selectSlotList = (slot) => {
     setSelectedDate(slot);
     setSelectedTime("");
-    setOptionsOpened(false);
   };
 
   const isTimeAvailable = (time) => {
@@ -145,16 +158,50 @@ export const SlotSelect = ({
     return `${h}:${m}`;
   };
 
-  // Convierte hora ARG (UTC-3) → timezone seleccionado
-  const convertFromArgentina = (time, diff) => {
-    return minutesToTime(timeToMinutes(time) + diff * 60);
-  };
+  const convertFromArgentina = (time, diff) =>
+    minutesToTime(timeToMinutes(time) + diff * 60);
 
   const formatDateForDisplay = (date) => {
-    // Espera formato DD/MM/YYYY
     if (!date) return "";
     const [day, month] = date.split("/");
     return `${day}/${month}`;
+  };
+
+  /* ---------- SWITCH CALENDAR ---------- */
+
+  const handleSwitchCalendar = async () => {
+    setLoadingOtherCalendar(true);
+    setError(null);
+
+    try {
+      const response = await fetch(N8N_WEBHOOK_URL_OTHER_CALENDAR, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ organizer: otherOrganizer }),
+      });
+
+      if (!response.ok) throw new Error("Could not load calendar");
+
+      const result = await response.json();
+      const slots = result.availabilty || [];
+
+      // Switch al otro organizador y reemplazar slots
+      setActiveOrganizer(otherOrganizer);
+      setSlotsData(slots);
+
+      // Resetear selección — los slots son de otra agenda
+      setSelectedDate("");
+      setSelectedTime("");
+      setSelectedTimeArg("");
+      setUnavailableTimes([]);
+    } catch (err) {
+      console.error(err);
+      setError(
+        "Could not load the other organizer's calendar. Please try again.",
+      );
+    } finally {
+      setLoadingOtherCalendar(false);
+    }
   };
 
   /* ---------- SUBMIT ---------- */
@@ -170,7 +217,7 @@ export const SlotSelect = ({
     setSuccess(false);
 
     const payload = {
-      organizer: formData.organizer,
+      organizer: activeOrganizer, // usa el organizador activo (puede haber cambiado)
       email: formData.email,
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -188,25 +235,22 @@ export const SlotSelect = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      console.log(response);
+
       if (!response.ok) {
         throw new Error("No se pudo confirmar el turno. Intente nuevamente.");
       }
 
       const data = await response.json();
-      console.log("Response data:", data);
+
       if ("canSchedule" in data && data.canSchedule === false) {
         setUnavailableTimes((prev) => [...prev, selectedTime]);
-
         throw new Error(
           "The appointment has already been taken by someone else, please select a different time slot",
         );
       }
 
-      console.log("data: ", data);
       setSuccess(true);
       setStep(3);
-
       setFormData({
         email: "",
         firstName: "",
@@ -230,15 +274,34 @@ export const SlotSelect = ({
   return (
     <div className="slot-select">
       <h2>Schedule Appointment</h2>
-      <div className="leave">
-        <button className="transparent-gray" onClick={() => resetForm()}>
-          <ArrowUturnLeftIcon className="arrow-icon" /> Leave without scheduling
+
+      {/* Header actions */}
+      <div className="slot-select-change-calendar">
+        <button
+          className={` ${loadingOtherCalendar ? "transparent-gray" : "transparent-green"}`}
+          onClick={handleSwitchCalendar}
+          disabled={loadingOtherCalendar}
+        >
+          {loadingOtherCalendar ? (
+            <ArrowPathRoundedSquareIcon
+              className={`slot-select-calendar-icon  spin`}
+            />
+          ) : (
+            <CalendarIcon className={`slot-select-calendar-icon `} />
+          )}
+          View {otherOrganizer.split(" ")[0]}'s calendar
         </button>
       </div>
+
+      {/* Active organizer indicator */}
+      <p className="active-organizer-label">
+        Viewing calendar of{" "}
+        <span className="active-organizer-name">{activeOrganizer}</span>
+      </p>
+
+      {/* Date grid */}
       <div className="dropdown-container">
         <h3>Select available date:</h3>
-        {/* DATE DROPDOWN */}
-        {/* DAY HEADERS */}
         <div className="day-headers">
           <span>Monday</span>
           <span>Tuesday</span>
@@ -246,11 +309,9 @@ export const SlotSelect = ({
           <span>Thursday</span>
           <span>Friday</span>
         </div>
-
-        <div className={`dropdown-options ${optionsOpened ? "appear" : ""}`}>
+        <div className="dropdown-options">
           {slotsData.map((slot) => {
             const selected = isDateSelected(slot);
-
             return (
               <p
                 key={slot.date}
@@ -269,14 +330,14 @@ export const SlotSelect = ({
         </div>
       </div>
 
-      {/* TIME GRID */}
+      {/* Time grid */}
       <div className="timeslot-container">
         <h3>Select available time slot:</h3>
         <div className="timezone-container">
           <p className="timezone-label">Timezone:</p>
           <div className="timezone-subcontainer">
             <p
-              className={`selected-timezone `}
+              className="selected-timezone"
               onClick={() => setOpenTimezoneOptions(!openTimezoneOptions)}
             >
               {selectedTimezone.name}{" "}
@@ -310,7 +371,6 @@ export const SlotSelect = ({
               argTime,
               selectedTimezone.diffWithArgentina,
             );
-
             const available = isTimeAvailable(argTime);
             const selected = selectedTime === visualTime;
 
@@ -319,9 +379,8 @@ export const SlotSelect = ({
                 key={argTime}
                 onClick={() => {
                   if (!available) return;
-
-                  setSelectedTime(visualTime); // timezone aplicado
-                  setSelectedTimeArg(argTime); // hora real ARG
+                  setSelectedTime(visualTime);
+                  setSelectedTimeArg(argTime);
                 }}
                 className="time-option"
                 style={{
@@ -337,12 +396,12 @@ export const SlotSelect = ({
           })}
         </ul>
       </div>
-      {/* CONFIRMATION */}
 
+      {/* Confirmation */}
       <div className="confirmation">
         <p className="confirmation-value">
           <span>Organizer:</span>
-          <span className="value">{formData.organizer}</span>
+          <span className="value">{activeOrganizer}</span>
         </p>
         <p className="confirmation-value">
           <span>Name:</span>
@@ -359,11 +418,11 @@ export const SlotSelect = ({
           <span className="value">{formData.companyName}</span>
         </p>
         <p className="confirmation-value">
-          <span>Selected slot :</span>
+          <span>Selected slot:</span>
           <span className="value">
-            {selectedDate.date ? selectedDate.date : ""}{" "}
-            {selectedTime ? ` - ${selectedTime} ` : ""}{" "}
-            {selectedTime && selectedTimezone.name}
+            {selectedDate.date ? selectedDate.date : ""}
+            {selectedTime ? ` - ${selectedTime}` : ""}
+            {selectedTime && ` ${selectedTimezone.name}`}
           </span>
         </p>
 
