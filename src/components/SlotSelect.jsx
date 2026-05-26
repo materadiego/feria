@@ -275,6 +275,11 @@ export const SlotSelect = ({
       <h2>Schedule Appointment</h2>
 
       {/* Header actions */}
+      {/* Active organizer indicator */}
+      <p className="active-organizer-label">
+        Viewing calendar of{" "}
+        <span className="active-organizer-name">{activeOrganizer}</span>
+      </p>
       <div className="slot-select-change-calendar">
         <button
           className={` ${loadingOtherCalendar ? "transparent-gray" : "transparent-green"}`}
@@ -291,12 +296,6 @@ export const SlotSelect = ({
           View {otherOrganizer.split(" ")[0]}'s calendar
         </button>
       </div>
-
-      {/* Active organizer indicator */}
-      <p className="active-organizer-label">
-        Viewing calendar of{" "}
-        <span className="active-organizer-name">{activeOrganizer}</span>
-      </p>
 
       {/* Date grid */}
       <div className="dropdown-container">

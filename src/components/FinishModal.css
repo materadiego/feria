@@ -39,3 +39,10 @@
   border-radius: 100%;
   stroke: #d2f176;
 }
+@media (max-width: 480px) {
+  .finish-submessage {
+    width: 100%;
+    font-size: 3vw;
+    margin: 0 0 5vw;
+  }
+}

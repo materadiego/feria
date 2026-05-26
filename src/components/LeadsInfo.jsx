@@ -67,7 +67,7 @@ export const LeadsInfo = () => {
       } catch (err) {
         setFetchError(err.message);
       } finally {
-        setLoadingRemote(false);
+        setLoadingRemote(true);
       }
     };
     fetchLeads();

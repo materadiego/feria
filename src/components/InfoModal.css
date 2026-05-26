@@ -1,25 +1,40 @@
+/* El backdrop ocupa todo el viewport real */
 .info-modal {
-  position: absolute;
+  position: fixed; /* fixed en lugar de absolute */
   background-color: rgba(0, 0, 0, 0.95);
   width: 100%;
-  height: 100vh;
+  height: 100dvh; /* dynamic viewport height */
   top: 0;
   left: 0;
   z-index: 3;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center; /* centrado vertical */
 }
 
+/* El overlay desaparece como concepto separado */
 .info-modal-overlay {
   width: 100%;
-  height: 100lvh;
-  overflow: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  height: 90dvh; /* 90% del alto real disponible */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.info-modal-overlay::-webkit-scrollbar {
+.info-modal-container {
+  width: 80%;
+  height: 90dvh;
+  display: flex;
+  flex-direction: column; /* ← los hijos se apilan verticalmente */
+  overflow: hidden; /* ← el scroll lo maneja el hijo, no este */
+  background-color: #111111;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 1);
+  padding: 4vw 5vw;
+  box-sizing: border-box;
+  position: relative;
+}
+.info-modal-container::-webkit-scrollbar {
   display: none;
 }
 
@@ -35,6 +50,7 @@
 }
 
 .info-modal-nav {
+  flex-shrink: 0; /* ← la nav nunca se encoge, ocupa lo que necesita */
   display: flex;
   margin-bottom: 5vw;
   align-items: center;
@@ -45,6 +61,7 @@
   padding: 0.6vw 2vw;
   border-radius: 6vw;
   transition: 0.3s;
+  font-size: 1.9vw;
 }
 
 .info-modal-nav p.selected {
@@ -99,7 +116,17 @@
 .info-span-temperature.blue {
   background-color: #4da6ff;
 }
+.app-information-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
+.app-information-scroll::-webkit-scrollbar {
+  display: none;
+}
 @media (max-width: 480px) {
   .info-modal-close-icon {
     width: 9vw;
@@ -118,5 +145,16 @@
   .info-section-container p {
     margin-bottom: 3vw;
     font-size: 2.8vw;
+  }
+
+  .info-modal-nav {
+    margin-bottom: 4vw;
+    gap: 2vw;
+  }
+
+  .info-modal-nav p {
+    padding: 1vw 3vw;
+    border-radius: 100vw;
+    font-size: 3vw;
   }
 }
