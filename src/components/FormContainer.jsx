@@ -246,11 +246,11 @@ export const FormContainer = () => {
     if (!formData.takenBy) return setError("'Data taken by' is required");
     if (!formData.dm) return setError("'DM' is required");
     if (!formData.temperature) return setError("'T' is required");
-    if (scheduleAppointment && !formData.organizer) {
-      return setError(
-        "To schedule an appointment, the 'Appointment organizer' cannot be empty",
-      );
-    }
+    // if (scheduleAppointment && !formData.organizer) {
+    //   return setError(
+    //     "To schedule an appointment, the 'Appointment organizer' cannot be empty",
+    //   );
+    // }
 
     // ── Modo offline: solo "Only Submit" puede encolarse ──────────────────────
     if (!isOnline) {

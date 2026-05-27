@@ -2,6 +2,7 @@ import "./SlotSelect.css";
 import { useState } from "react";
 import loader from "../loader.svg";
 import {
+  ArrowPathIcon,
   ArrowPathRoundedSquareIcon,
   BarsArrowDownIcon,
   CalendarIcon,
@@ -110,7 +111,7 @@ export const SlotSelect = ({
   resetForm,
 }) => {
   const [slotsData, setSlotsData] = useState(initialSlotsData);
-  const [activeOrganizer, setActiveOrganizer] = useState(formData.organizer);
+  const [activeOrganizer, setActiveOrganizer] = useState("");
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
@@ -168,7 +169,9 @@ export const SlotSelect = ({
 
   /* ---------- SWITCH CALENDAR ---------- */
 
-  const handleSwitchCalendar = async () => {
+  const handleSwitchCalendar = async (organizer) => {
+    if (organizer === activeOrganizer) return; // ya está seleccionado, no hace nada
+
     setLoadingOtherCalendar(true);
     setError(null);
 
@@ -176,28 +179,21 @@ export const SlotSelect = ({
       const response = await fetch(N8N_WEBHOOK_URL_OTHER_CALENDAR, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ organizer: otherOrganizer }),
+        body: JSON.stringify({ organizer }),
       });
 
       if (!response.ok) throw new Error("Could not load calendar");
 
       const result = await response.json();
-      const slots = result.availabilty || [];
-
-      // Switch al otro organizador y reemplazar slots
-      setActiveOrganizer(otherOrganizer);
-      setSlotsData(slots);
-
-      // Resetear selección — los slots son de otra agenda
+      setSlotsData(result.availabilty || []);
+      setActiveOrganizer(organizer);
       setSelectedDate("");
       setSelectedTime("");
       setSelectedTimeArg("");
       setUnavailableTimes([]);
     } catch (err) {
       console.error(err);
-      setError(
-        "Could not load the other organizer's calendar. Please try again.",
-      );
+      setError("Could not load the organizer's calendar. Please try again.");
     } finally {
       setLoadingOtherCalendar(false);
     }
@@ -276,171 +272,176 @@ export const SlotSelect = ({
 
       {/* Header actions */}
       {/* Active organizer indicator */}
-      <p className="active-organizer-label">
-        Viewing calendar of{" "}
-        <span className="active-organizer-name">{activeOrganizer}</span>
-      </p>
+      <h3>Select organizer</h3>
+
       <div className="slot-select-change-calendar">
-        <button
-          className={` ${loadingOtherCalendar ? "transparent-gray" : "transparent-green"}`}
-          onClick={handleSwitchCalendar}
-          disabled={loadingOtherCalendar}
-        >
-          {loadingOtherCalendar ? (
-            <ArrowPathRoundedSquareIcon
-              className={`slot-select-calendar-icon  spin`}
+        {ORGANIZER_PAIR.map((name) => (
+          <button
+            key={name}
+            className={`${activeOrganizer === name ? "transparent-green" : "transparent-gray"} ${loadingOtherCalendar ? "transparent-gray" : ""}`}
+            onClick={() => handleSwitchCalendar(name)}
+            disabled={loadingOtherCalendar}
+          >
+            <CalendarIcon
+              className={`slot-select-calendar-icon ${activeOrganizer === name ? "slot-select-calendar-icon-green" : "slot-select-calendar-icon-gray"}`}
             />
-          ) : (
-            <CalendarIcon className={`slot-select-calendar-icon `} />
-          )}
-          View {otherOrganizer.split(" ")[0]}'s calendar
-        </button>
+
+            {name}
+          </button>
+        ))}
+        {loadingOtherCalendar && (
+          <ArrowPathIcon className="slot-select-loader-icon spin" />
+        )}
       </div>
 
-      {/* Date grid */}
-      <div className="dropdown-container">
-        <h3>Select available date:</h3>
-        <div className="day-headers">
-          <span>Monday</span>
-          <span>Tuesday</span>
-          <span>Wednesday</span>
-          <span>Thursday</span>
-          <span>Friday</span>
+      {!loadingOtherCalendar && activeOrganizer !== "" && (
+        <div className="dropdown-container">
+          <h3>Select available date</h3>
+          <div className="day-headers">
+            <span>Monday</span>
+            <span>Tuesday</span>
+            <span>Wednesday</span>
+            <span>Thursday</span>
+            <span>Friday</span>
+          </div>
+          <div className="dropdown-options">
+            {slotsData.map((slot) => {
+              const selected = isDateSelected(slot);
+              return (
+                <p
+                  key={slot.date}
+                  onClick={() => selectSlotList(slot)}
+                  className="date-option"
+                  style={{
+                    color: selected ? "#d2f176" : "#e5e7eb",
+                    border: selected
+                      ? "2px solid #d2f176"
+                      : "2px solid #5a5a5a",
+                  }}
+                >
+                  {formatDateForDisplay(slot.date)}
+                  <span>{slot.availability}</span>
+                </p>
+              );
+            })}
+          </div>
         </div>
-        <div className="dropdown-options">
-          {slotsData.map((slot) => {
-            const selected = isDateSelected(slot);
-            return (
+      )}
+      {!loadingOtherCalendar && activeOrganizer !== "" && (
+        <div className="timeslot-container">
+          <h3>Select available time slot</h3>
+          <div className="timezone-container">
+            <p className="timezone-label">Timezone</p>
+            <div className="timezone-subcontainer">
               <p
-                key={slot.date}
-                onClick={() => selectSlotList(slot)}
-                className="date-option"
-                style={{
-                  color: selected ? "#d2f176" : "#e5e7eb",
-                  border: selected ? "2px solid #d2f176" : "2px solid #5a5a5a",
-                }}
+                className="selected-timezone"
+                onClick={() => setOpenTimezoneOptions(!openTimezoneOptions)}
               >
-                {formatDateForDisplay(slot.date)}
-                <span>{slot.availability}</span>
+                {selectedTimezone.name}{" "}
+                <BarsArrowDownIcon
+                  className={`time-zone-icon ${openTimezoneOptions ? "opened" : ""}`}
+                />
               </p>
-            );
-          })}
-        </div>
-      </div>
+              {openTimezoneOptions && (
+                <div className="timezone-options">
+                  {TIMEZONES.map((tz) => (
+                    <p
+                      key={tz.name}
+                      className={`timezone-option ${selectedTimezone.name === tz.name ? "timezone-option-selected" : ""}`}
+                      onClick={() => {
+                        setSelectedTimezone(tz);
+                        setOpenTimezoneOptions(false);
+                        setSelectedTime("");
+                        setSelectedTimeArg("");
+                      }}
+                    >
+                      {tz.name}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <ul>
+            {ALL_TIMES.map((argTime) => {
+              const visualTime = convertFromArgentina(
+                argTime,
+                selectedTimezone.diffWithArgentina,
+              );
+              const available = isTimeAvailable(argTime);
+              const selected = selectedTime === visualTime;
 
-      {/* Time grid */}
-      <div className="timeslot-container">
-        <h3>Select available time slot:</h3>
-        <div className="timezone-container">
-          <p className="timezone-label">Timezone:</p>
-          <div className="timezone-subcontainer">
-            <p
-              className="selected-timezone"
-              onClick={() => setOpenTimezoneOptions(!openTimezoneOptions)}
-            >
-              {selectedTimezone.name}{" "}
-              <BarsArrowDownIcon
-                className={`time-zone-icon ${openTimezoneOptions ? "opened" : ""}`}
-              />
-            </p>
-            {openTimezoneOptions && (
-              <div className="timezone-options">
-                {TIMEZONES.map((tz) => (
-                  <p
-                    key={tz.name}
-                    className={`timezone-option ${selectedTimezone.name === tz.name ? "timezone-option-selected" : ""}`}
-                    onClick={() => {
-                      setSelectedTimezone(tz);
-                      setOpenTimezoneOptions(false);
-                      setSelectedTime("");
-                      setSelectedTimeArg("");
-                    }}
-                  >
-                    {tz.name}
-                  </p>
-                ))}
+              return (
+                <li
+                  key={argTime}
+                  onClick={() => {
+                    if (!available) return;
+                    setSelectedTime(visualTime);
+                    setSelectedTimeArg(argTime);
+                  }}
+                  className="time-option"
+                  style={{
+                    opacity: available ? 1 : 0.2,
+                    cursor: available ? "pointer" : "default",
+                    color: selected ? "#d2f176" : "#e5e7eb",
+                    border: selected
+                      ? "2px solid #d2f176"
+                      : "2px solid #5a5a5a",
+                  }}
+                >
+                  {visualTime}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+      {!loadingOtherCalendar && activeOrganizer !== "" && (
+        <div className="confirmation">
+          <p className="confirmation-value">
+            <span>Organizer:</span>
+            <span className="value">{activeOrganizer}</span>
+          </p>
+          <p className="confirmation-value">
+            <span>Name:</span>
+            <span className="value">
+              {formData.firstName} {formData.lastName}
+            </span>
+          </p>
+          <p className="confirmation-value">
+            <span>Email:</span>
+            <span className="value">{formData.email}</span>
+          </p>
+          <p className="confirmation-value">
+            <span>Company:</span>
+            <span className="value">{formData.companyName}</span>
+          </p>
+          <p className="confirmation-value">
+            <span>Selected slot:</span>
+            <span className="value">
+              {selectedDate.date ? selectedDate.date : ""}
+              {selectedTime ? ` - ${selectedTime}` : ""}
+              {selectedTime && ` ${selectedTimezone.name}`}
+            </span>
+          </p>
+
+          <div className="slot-select-button-container">
+            {loading ? (
+              <div className="loader-container-slot-select">
+                <img src={loader} alt="Loading..." className="button-loader" />
               </div>
+            ) : (
+              <button
+                className="solid"
+                disabled={loading || !selectedDate || !selectedTime}
+                onClick={handleSubmitSlot}
+              >
+                <CalendarIcon className="calendar-icon" /> Schedule Appointment
+              </button>
             )}
           </div>
         </div>
-        <ul>
-          {ALL_TIMES.map((argTime) => {
-            const visualTime = convertFromArgentina(
-              argTime,
-              selectedTimezone.diffWithArgentina,
-            );
-            const available = isTimeAvailable(argTime);
-            const selected = selectedTime === visualTime;
-
-            return (
-              <li
-                key={argTime}
-                onClick={() => {
-                  if (!available) return;
-                  setSelectedTime(visualTime);
-                  setSelectedTimeArg(argTime);
-                }}
-                className="time-option"
-                style={{
-                  opacity: available ? 1 : 0.2,
-                  cursor: available ? "pointer" : "default",
-                  color: selected ? "#d2f176" : "#e5e7eb",
-                  border: selected ? "2px solid #d2f176" : "2px solid #5a5a5a",
-                }}
-              >
-                {visualTime}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      {/* Confirmation */}
-      <div className="confirmation">
-        <p className="confirmation-value">
-          <span>Organizer:</span>
-          <span className="value">{activeOrganizer}</span>
-        </p>
-        <p className="confirmation-value">
-          <span>Name:</span>
-          <span className="value">
-            {formData.firstName} {formData.lastName}
-          </span>
-        </p>
-        <p className="confirmation-value">
-          <span>Email:</span>
-          <span className="value">{formData.email}</span>
-        </p>
-        <p className="confirmation-value">
-          <span>Company:</span>
-          <span className="value">{formData.companyName}</span>
-        </p>
-        <p className="confirmation-value">
-          <span>Selected slot:</span>
-          <span className="value">
-            {selectedDate.date ? selectedDate.date : ""}
-            {selectedTime ? ` - ${selectedTime}` : ""}
-            {selectedTime && ` ${selectedTimezone.name}`}
-          </span>
-        </p>
-
-        <div className="slot-select-button-container">
-          {loading ? (
-            <div className="loader-container-slot-select">
-              <img src={loader} alt="Loading..." className="button-loader" />
-            </div>
-          ) : (
-            <button
-              className="solid"
-              disabled={loading || !selectedDate || !selectedTime}
-              onClick={handleSubmitSlot}
-            >
-              <CalendarIcon className="calendar-icon" /> Schedule Appointment
-            </button>
-          )}
-        </div>
-      </div>
-
+      )}
       {error && <p className="slot-error">{error}</p>}
     </div>
   );

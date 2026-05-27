@@ -4,23 +4,42 @@
 }
 
 .slot-select-change-calendar {
-  position: absolute;
   top: 0;
   right: 0;
   color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+  margin: 3vw 0 4vw;
 }
 
 .slot-select-calendar-icon {
-  stroke: #aaaaaa;
   width: 2vw;
   height: 2vw;
+  margin-right: 1vw;
+  transition: 0.3s;
+  will-change: transform stroke;
+}
+
+.slot-select-calendar-icon-gray {
+  stroke: #aaaaaa;
+}
+
+.slot-select-calendar-icon-green {
+  stroke: #d2f176;
+}
+
+.slot-select-loader-icon {
+  stroke: #aaaaaa;
+  width: 5vw;
+  height: 5vw;
   margin-right: 1vw;
   stroke: #d2f176;
   transition: 0.3s;
   will-change: transform stroke;
 }
 
-.slot-select-calendar-icon.spin {
+.slot-select-loader-icon.spin {
   animation-name: spin;
   animation-duration: 4s;
   animation-iteration-count: infinite;
