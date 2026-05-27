@@ -88,9 +88,6 @@ const TIMEZONES = [
 
 const ORGANIZER_PAIR = ["Estefania Lapenna", "Martina Zajdman"];
 
-const getOtherOrganizer = (current) =>
-  ORGANIZER_PAIR.find((o) => o !== current) || "";
-
 const N8N_WEBHOOK_URL_SCHEDULE =
   "https://n8n.srv998702.hstgr.cloud/webhook/ibs-schedule-appointment";
 
