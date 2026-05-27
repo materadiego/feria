@@ -3,7 +3,6 @@ import { useState } from "react";
 import loader from "../loader.svg";
 import {
   ArrowPathIcon,
-  ArrowPathRoundedSquareIcon,
   BarsArrowDownIcon,
   CalendarIcon,
 } from "@heroicons/react/24/outline";
@@ -126,8 +125,6 @@ export const SlotSelect = ({
     utcOffset: -8,
     diffWithArgentina: -5,
   });
-
-  const otherOrganizer = getOtherOrganizer(activeOrganizer);
 
   /* ---------- HELPERS ---------- */
 
