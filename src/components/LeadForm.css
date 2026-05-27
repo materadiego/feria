@@ -237,6 +237,7 @@ input[type="radio"] {
 .lead-form-button-container {
   display: flex;
   justify-content: space-between;
+  margin-top: 10vw;
 }
 
 /* File upload */

@@ -50,7 +50,6 @@ export default function LeadForm({
       takenBy,
       dm,
       temperature,
-      organizer,
     } = formData;
 
     const isOnlySubmitDisabled =
@@ -62,8 +61,7 @@ export default function LeadForm({
       !dm ||
       !temperature;
 
-    const isSubmitScheduleDisabled =
-      isOnlySubmitDisabled || organizer === "" || !isOnline;
+    const isSubmitScheduleDisabled = isOnlySubmitDisabled || !isOnline;
 
     setOnlySubmitDisabled(isOnlySubmitDisabled);
     setSubmitScheduleDisabled(isSubmitScheduleDisabled);
@@ -392,7 +390,7 @@ export default function LeadForm({
             </label>
           ))}
         </div>
-        <div className="appointment-organizer">
+        {/* <div className="appointment-organizer">
           <label>
             Appointment organizer{" "}
             <span className="required-meeting-field">
@@ -415,7 +413,7 @@ export default function LeadForm({
               {name}
             </label>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {loading ? (
