@@ -131,15 +131,18 @@
   .info-modal-close-icon {
     width: 9vw;
     height: 9vw;
-    top: 2vw;
-    right: 1vw;
+    top: 5vw;
+    right: 5vw;
   }
 
   .info-modal-container {
-    top: 5vw;
+    top: 0vw;
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
     padding: 8vw 5vw;
     position: relative;
-    margin-bottom: 10vw;
+    margin-bottom: 0vw;
   }
 
   .info-section-container p {

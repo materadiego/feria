@@ -34,7 +34,8 @@
   width: 5vw;
   height: 5vw;
   margin-right: 1vw;
-  stroke: #d2f176;
+  stroke: #828282;
+
   transition: 0.3s;
   will-change: transform stroke;
 }
@@ -44,7 +45,6 @@
   animation-duration: 4s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  stroke: #828282;
 }
 
 .arrow-icon {
@@ -99,9 +99,9 @@
   padding: 2vw 1vw;
   font-size: 1.5vw;
   font-weight: 500;
-  border: 1px solid #e5e7eb;
+
   background-color: transparent;
-  border-radius: 10px;
+  border-radius: 0.7vw;
   cursor: pointer;
   position: relative;
 }
@@ -195,7 +195,7 @@ ul {
   background: transparent;
   margin: 0;
   padding: 3vw 0;
-  border-radius: 10px;
+  border-radius: 0.7vw;
   font-size: 1.5vw;
   font-weight: 500;
   border: 1px solid #e5e7eb;
@@ -247,6 +247,48 @@ ul {
 @media (max-width: 480px) {
   .slot-select {
     padding-bottom: 10vw;
+  }
+
+  .slot-select-change-calendar {
+    justify-content: space-between;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .slot-select-change-calendar button {
+    font-size: 3.3vw;
+    width: 48%;
+  }
+
+  .slot-select-calendar-icon {
+    width: 10vw;
+    height: 10vw;
+  }
+
+  .slot-select-calendar-icon-gray {
+    stroke: #aaaaaa;
+  }
+
+  .slot-select-calendar-icon-green {
+    stroke: #d2f176;
+  }
+
+  .slot-select-loader-icon {
+    stroke: #aaaaaa;
+    width: 10vw;
+    height: 10vw;
+    margin: 10vw auto 5vw;
+    stroke: #828282;
+
+    transition: 0.3s;
+    will-change: transform stroke;
+  }
+
+  .slot-select-loader-icon.spin {
+    animation-name: spin;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
   }
 
   .arrow-icon {
@@ -319,7 +361,7 @@ ul {
     width: 100%;
     margin-left: 0;
     padding: 8vw 6vw 4vw;
-    font-size: 4vw;
+    font-size: 3vw;
   }
 
   .slot-select-button-container {
@@ -333,11 +375,9 @@ ul {
   }
 
   .slot-select-calendar-icon {
-    stroke: #aaaaaa;
     width: 5vw;
     height: 5vw;
     margin-right: 2vw;
-    stroke: #d2f176;
     transition: 0.3s;
     will-change: transform stroke;
   }

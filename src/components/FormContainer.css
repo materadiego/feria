@@ -6,6 +6,8 @@
 
 .form-subcontainer {
   padding: 3vw 5% 10vw;
+  transition: 0.5s;
+  will-change: box-shadow;
 }
 
 .loader-container-slot-select {
@@ -69,6 +71,58 @@
   background-color: transparent;
   border: 2px solid #aaaaaa;
 }
+
+.online-status-notification {
+  position: fixed;
+  top: 10vw;
+  right: 2vw;
+  background: #111111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw 3vw;
+  box-shadow: 0 0 1vw 0 rgba(0, 0, 0, 0.4);
+  border-radius: 1vw;
+  border: 2px solid #698a06;
+  border: 2px solid #444444;
+  gap: 1vw;
+  font-size: 1.5vw;
+  font-weight: 300;
+  color: #cccccc;
+  animation-name: opacity;
+  animation-duration: 0.3s;
+  animation-delay: 0.1s;
+  animation-fill-mode: forwards;
+  will-change: opacity;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.close-notification {
+  width: 3vw;
+  height: 3vw;
+  stroke: #aaaaaa;
+}
+
+.wifi-icon-on {
+  width: 3.5vw;
+  height: 3.5vw;
+  stroke: #99ca08;
+}
+
+.wifi-icon-off {
+  width: 3.5vw;
+  height: 3.5vw;
+  stroke: #b86f21;
+}
+
 .header-buttons {
   display: flex;
   gap: 1.5vw;

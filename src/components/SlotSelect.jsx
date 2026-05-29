@@ -309,8 +309,8 @@ export const SlotSelect = ({
                   style={{
                     color: selected ? "#d2f176" : "#e5e7eb",
                     border: selected
-                      ? "2px solid #d2f176"
-                      : "2px solid #5a5a5a",
+                      ? "1px solid #d2f176"
+                      : "1px solid #5a5a5a",
                   }}
                 >
                   {formatDateForDisplay(slot.date)}
@@ -379,8 +379,8 @@ export const SlotSelect = ({
                     cursor: available ? "pointer" : "default",
                     color: selected ? "#d2f176" : "#e5e7eb",
                     border: selected
-                      ? "2px solid #d2f176"
-                      : "2px solid #5a5a5a",
+                      ? "1px solid #d2f176"
+                      : "1px solid #666666",
                   }}
                 >
                   {visualTime}

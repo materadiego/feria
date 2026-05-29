@@ -13,6 +13,7 @@ html {
     rgba(34, 34, 34, 1) 39%,
     rgba(0, 0, 0, 1) 51%
   );
+  background: #111111;
 }
 
 .App {
@@ -140,7 +141,8 @@ button:disabled {
   button.transparent-gray {
     background-color: transparent;
     color: #828282;
-    border: 2px solid #adadad;
+    border: 1px solid #666666;
+
     font-size: 5vw;
   }
 
