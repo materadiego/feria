@@ -5,7 +5,13 @@ import { SlotSelect } from "./SlotSelect";
 import logo from "../worldteams-logo-light.svg";
 import { FinishModal } from "./FinishModal";
 import { InfoModal } from "./InfoModal";
-import { ArrowPathIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  PlusCircleIcon,
+  SignalIcon,
+  SignalSlashIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 const N8N_WEBHOOK_URL = "https://n8n.srv998702.hstgr.cloud/webhook/form-ibs-26";
 const QUEUE_KEY = "ibs_queue";
@@ -61,10 +67,11 @@ const removeFromQueue = (id) => {
 // ─── Hook: online status ──────────────────────────────────────────────────────
 
 const useOnlineStatus = () => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(null);
 
   useEffect(() => {
     // Eventos nativos del browser (inmediatos)
+    setIsOnline(navigator.onLine);
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
     window.addEventListener("online", handleOnline);
@@ -157,6 +164,8 @@ export const FormContainer = () => {
   const [success, setSuccess] = useState(false);
   const [infoModal, setInfoModal] = useState(false);
   const [savedOffline, setSavedOffline] = useState(false);
+  const [statusNotification, setStatusNotification] = useState(false);
+  const notificationTimer = useRef(null);
 
   const isOnline = useOnlineStatus();
   const { queueSize } = useQueueSync(isOnline);
@@ -214,6 +223,24 @@ export const FormContainer = () => {
       document.body.style.paddingRight = "";
     };
   }, [infoModal]);
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isOnline === null) return; // todavía no inicializado
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    setStatusNotification(true);
+    if (notificationTimer.current) clearTimeout(notificationTimer.current);
+    notificationTimer.current = setTimeout(() => {
+      setStatusNotification(false);
+    }, 5000);
+
+    return () => clearTimeout(notificationTimer.current);
+  }, [isOnline]);
 
   const resetForm = () => {
     clearSession();
@@ -342,7 +369,7 @@ export const FormContainer = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container ">
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo" />
         <div className="header-buttons">
@@ -370,7 +397,23 @@ export const FormContainer = () => {
       </div>
 
       {infoModal && <InfoModal setInfoModal={setInfoModal} />}
-      <div className="form-subcontainer">{renderView()}</div>
+      <div className={`form-subcontainer `}>{renderView()}</div>
+      {statusNotification && (
+        <div className="online-status-notification">
+          {!isOnline ? (
+            <SignalSlashIcon className="wifi-icon-off" />
+          ) : (
+            <SignalIcon className="wifi-icon-on" />
+          )}
+          {!isOnline
+            ? "Connection lost. Offline mode enabled"
+            : "Connection restored. You're back online!"}
+          <XMarkIcon
+            className="close-notification"
+            onClick={() => setStatusNotification(false)}
+          />
+        </div>
+      )}
     </div>
   );
 };
