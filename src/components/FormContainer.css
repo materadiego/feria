@@ -94,6 +94,7 @@
   animation-delay: 0.1s;
   animation-fill-mode: forwards;
   will-change: opacity;
+  opacity: 0;
 }
 
 @keyframes opacity {
