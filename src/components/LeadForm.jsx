@@ -256,7 +256,9 @@ export default function LeadForm({
       {/* Comments + voice */}
       <div className="comments-container">
         <div className="comments-label-row">
-          <label>Comments</label>
+          <label>
+            Comments <span className="required-field">*</span>
+          </label>
 
           {isRecordingSupported && (
             <div className="mic-controls">
