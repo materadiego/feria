@@ -307,10 +307,12 @@ export const SlotSelect = ({
                   onClick={() => selectSlotList(slot)}
                   className="date-option"
                   style={{
+                    opacity: slot.availability === 0 ? ".5" : "1",
                     color: selected ? "#d2f176" : "#e5e7eb",
                     border: selected
                       ? "1px solid #d2f176"
                       : "1px solid #5a5a5a",
+                    pointerEvents: slot.availability === 0 ? "none" : "all",
                   }}
                 >
                   {formatDateForDisplay(slot.date)}
