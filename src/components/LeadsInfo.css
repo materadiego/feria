@@ -331,8 +331,8 @@
 
 .lead-edit-pill-group > label {
   display: block;
-  font-size: 1.7vw;
-  font-weight: 500;
+  font-size: 1.5vw;
+  font-weight: 300;
   color: #eeeeee;
   margin-bottom: 1vw;
 }
@@ -352,7 +352,8 @@
   border-radius: 1vw;
   color: #eeeeee;
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 300;
+  font-size: 1.4vw;
 }
 
 .lead-edit-pill-row .radio-label:has(input[type="radio"]:checked) {
