@@ -274,6 +274,119 @@
   margin-top: 2vw;
   font-size: 1.2vw;
 }
+.lead-edit-form {
+  padding: 0 2vw 5vw;
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+  overflow: auto;
+}
+.lead-edit-back {
+  background: transparent;
+  margin-bottom: 2vw;
+  width: fit-content;
+  padding: 1vw 2vw;
+  font-size: 2vw;
+}
+.lead-edit-back-icon {
+  stroke: #aaaaaa;
+  width: 1.7vw;
+  height: 1.7vw;
+  margin-right: 1vw;
+}
+.lead-edit-label {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5vw 0 1.5vw;
+  width: 100%;
+  font-size: 1.5vw;
+}
+
+.lead-edit-label-email input {
+  color: #aaaaaa;
+}
+.lead-edit-input {
+  resize: none;
+  width: 100%;
+  margin: 0.5vw 0 0;
+  padding: 1.5vw;
+  font-size: 1.6vw;
+  border-radius: 0.6vw;
+  border: 1px solid #666666;
+  background-color: #111111;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.lead-edit-submit {
+  margin-top: 3vw;
+  width: fit-content;
+  padding: 1vw 2vw;
+  font-size: 2vw;
+}
+/* ── Pills en el form de edición ── */
+.lead-edit-pill-group {
+  margin-bottom: 3vw;
+}
+
+.lead-edit-pill-group > label {
+  display: block;
+  font-size: 1.7vw;
+  font-weight: 500;
+  color: #eeeeee;
+  margin-bottom: 1vw;
+}
+
+.lead-edit-pill-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2vw;
+  row-gap: 0.5vw;
+}
+
+.lead-edit-pill-row .radio-label {
+  display: flex;
+  align-items: center;
+  border: 1px solid #666666;
+  padding: 2vw;
+  border-radius: 1vw;
+  color: #eeeeee;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.lead-edit-pill-row .radio-label:has(input[type="radio"]:checked) {
+  border-color: #d2f176;
+  color: #d2f176;
+}
+
+.lead-edit-pill-row input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 1vw;
+  accent-color: #d2f176;
+}
+
+/* Barra de color para temperature */
+.lead-edit-pill-row .temperature-button {
+  display: inline-block;
+  width: 70%;
+  height: 2vw;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.lead-edit-pill-row .temperature-button.Cold {
+  background-color: #3b82f6;
+}
+
+.lead-edit-pill-row .temperature-button.Warm {
+  background-color: #f59e0b;
+}
+
+.lead-edit-pill-row .temperature-button.Hot {
+  background-color: #ef4444;
+}
 @media (max-width: 480px) {
   .leads-info-filters {
     width: 90%;
@@ -314,7 +427,7 @@
   }
 
   .lead-card {
-    height: 23vw;
+    height: 26vw;
     padding: 3vw;
   }
 
@@ -413,5 +526,84 @@
     width: 3.5vw;
     height: 3.5vw;
     margin-right: 1vw;
+  }
+
+  .lead-edit-pill-group > label {
+    font-size: 3vw;
+    font-weight: 300;
+    margin-bottom: 1.5vw;
+  }
+
+  .lead-edit-pill-row .radio-label {
+    padding: 4vw;
+    border-radius: 7px;
+    font-size: 2vw;
+    font-weight: 300;
+  }
+
+  .lead-edit-pill-row input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    margin-right: 2vw;
+  }
+
+  .lead-edit-pill-row .temperature-button {
+    height: 5vw;
+  }
+  .lead-edit-button {
+    padding: 0 5vw;
+    height: 4vw;
+    margin-top: 2.5vw;
+    font-size: 2vw;
+    border-radius: 0.9vw;
+  }
+  .lead-edit-form {
+    padding: 0 2vw 5vw;
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+    overflow: auto;
+  }
+  .lead-edit-back {
+    background: transparent;
+    margin-bottom: 2vw;
+    width: fit-content;
+    padding: 1vw 2vw;
+  }
+  .lead-edit-back-icon {
+    stroke: #aaaaaa;
+    width: 4vw;
+    height: 4vw;
+    margin-right: 1vw;
+  }
+  .lead-edit-label {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5vw 0 1.5vw;
+    width: 100%;
+    font-size: 3vw;
+  }
+
+  .lead-edit-label-email input {
+    color: #aaaaaa;
+  }
+  .lead-edit-input {
+    resize: none;
+    width: 100%;
+    margin: 0.5vw 0 0;
+    padding: 1.5vw;
+    font-size: 3vw;
+
+    border-radius: 0.9vw;
+    border: 1px solid #666666;
+    background-color: #111111;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .lead-edit-submit {
+    margin-top: 3vw;
+    width: fit-content;
+    padding: 2vw 4vw;
   }
 }
