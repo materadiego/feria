@@ -121,7 +121,7 @@
 
 .lead-card {
   width: 96%;
-  height: 15vw;
+  height: 18vw;
   flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
@@ -262,6 +262,17 @@
   height: 2vw;
   margin-right: 0.5vw;
   stroke: #aaaaaa;
+}
+
+.lead-edit-button {
+  color: #aaaaaa;
+  background: transparent;
+  outline: none;
+  border: 1px solid #aaaaaa;
+  padding: 0 3vw;
+  height: 3vw;
+  margin-top: 2vw;
+  font-size: 1.2vw;
 }
 @media (max-width: 480px) {
   .leads-info-filters {

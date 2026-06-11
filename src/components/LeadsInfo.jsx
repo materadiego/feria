@@ -204,6 +204,7 @@ export const LeadsInfo = () => {
                 <BuildingOffice2Icon className="lead-card-company-icon" />
                 {lead["Company Name"]}
               </p>
+              <button className="lead-edit-button">Edit</button>
             </div>
             <div className="lead-card-system-data">
               {renderStatus(lead)}
