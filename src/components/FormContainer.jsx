@@ -266,11 +266,11 @@ export const FormContainer = () => {
     const scheduleAppointment = submitter?.value === "true";
 
     // Validaciones
-    if (!formData.firstName) return setError("'First name' is required");
-    if (!formData.lastName) return setError("'Last name' is required");
+    // if (!formData.firstName) return setError("'First name' is required");
+    // if (!formData.lastName) return setError("'Last name' is required");
     if (!formData.email) return setError("'Email' is required");
-    if (!formData.companyName) return setError("'Company name' is required");
-    if (!formData.comments) return setError("'Comments' are required");
+    // if (!formData.companyName) return setError("'Company name' is required");
+    // if (!formData.comments) return setError("'Comments' are required");
     if (!formData.takenBy) return setError("'Data taken by' is required");
     if (!formData.dm) return setError("'DM' is required");
     if (!formData.temperature) return setError("'T' is required");
