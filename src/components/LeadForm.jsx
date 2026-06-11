@@ -198,9 +198,7 @@ export default function LeadForm({
 
       <div className="row">
         <div>
-          <label>
-            First Name <span className="required-field">*</span>
-          </label>
+          <label>First Name</label>
           <input
             type="text"
             name="firstName"
@@ -209,9 +207,7 @@ export default function LeadForm({
           />
         </div>
         <div>
-          <label>
-            Last Name <span className="required-field">*</span>
-          </label>
+          <label>Last Name</label>
           <input
             type="text"
             name="lastName"
@@ -241,9 +237,7 @@ export default function LeadForm({
           />
         </div>
         <div>
-          <label>
-            Company Name <span className="required-field">*</span>
-          </label>
+          <label>Company Name</label>
           <input
             type="text"
             name="companyName"
@@ -256,9 +250,7 @@ export default function LeadForm({
       {/* Comments + voice */}
       <div className="comments-container">
         <div className="comments-label-row">
-          <label>
-            Comments <span className="required-field">*</span>
-          </label>
+          <label>Comments</label>
 
           {isRecordingSupported && (
             <div className="mic-controls">
